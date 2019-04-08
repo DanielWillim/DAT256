@@ -1,0 +1,25 @@
+env:
+  browser: true
+  es6: true
+extends:
+  - airbnb
+  - plugin:import/react
+  - plugin:flowtype/recommended
+globals:
+  Atomics: readonly
+  SharedArrayBuffer: readonly
+settings:
+  import/resolver:
+    babel-module:
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+    modules: true
+  ecmaVersion: 9
+  sourceType: module
+plugins:
+  - react
+  - import
+  - flowtype
+rules:
+  react/prop-types: off
