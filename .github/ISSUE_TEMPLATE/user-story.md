@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-As a .... I want to ... since ...
+**As a** .... (for whom is value created) **I want to** ... (what creates value) **since** ... (what is the value in this)
 
 # Acceptance Criteria
 * [ ] ...
