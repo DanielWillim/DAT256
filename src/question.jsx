@@ -9,7 +9,7 @@ export default class Question extends Component {
   render() {
     return (
       <div>
-        <div> Vad är kurskoden för denna kurs?
+        <div> {this.props.question}
         </div>
         {this.props.answer.map(([text, isCorrect])=>(
           <Answer answer={text}
