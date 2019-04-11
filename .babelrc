@@ -10,6 +10,7 @@
       "alias": {
         "test": "./test"
       }
-    }]
+    }],
+    "@babel/plugin-proposal-class-properties"
   ]
 }

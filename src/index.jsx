@@ -1,8 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Question from 'question';
 
 ReactDOM.render(
-  <div>Hello World</div>,
+  <Question
+    answer={[["DAT256", true], ["DAT356", false], ["TAD007", false], ["TAD256", false]]}
+    onAnswer={(isCorrect)=>console.log(isCorrect)}
+    />,
   document.getElementById('app'),
 );
 
