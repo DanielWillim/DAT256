@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import Win from 'Win';
 
 ReactDOM.render(
-	<Win/>,
+  <Win />,
   document.getElementById('app'),
 );
 

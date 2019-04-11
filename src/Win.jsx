@@ -1,10 +1,20 @@
-import React, {Component} from 'react';
-export default class WinScreen extends Component {
-	constructor(){
-		super();
-	}
-	render(){
-		return(<p>Grattis, du hade rätt!
-				<br/>Fortsätt till nästa fråga (Knapp)</p>);
-	}
+import React, { Component } from 'react';
+
+export default class Winning extends Component {
+  constructor() {
+    super();
+  }
+
+  handleClick() {
+    console.log('The link was clicked.');
+  }
+
+  render() {
+    return (
+      <p>
+        <h1>Grattis du hade rätt!</h1>
+        <button onClick={this.handleClick}>test</button>
+    	</p>
+    );
+  }
 }
