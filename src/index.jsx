@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Win from 'Win';
 
 ReactDOM.render(
-  <div>Hello World</div>,
+	<Win/>,
   document.getElementById('app'),
 );
+
 
 module.hot.accept();
