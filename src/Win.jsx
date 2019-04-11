@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 
 export default class Winning extends Component {
-  constructor() {
-    super();
-  }
-
   handleClick() {
     console.log('The link was clicked.');
   }
@@ -14,7 +10,7 @@ export default class Winning extends Component {
       <p>
         <h1>Grattis du hade rätt!</h1>
         <button onClick={this.handleClick}>test</button>
-    	</p>
+      </p>
     );
   }
 }
