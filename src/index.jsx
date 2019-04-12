@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Fail from 'fail';
 
 ReactDOM.render(
-  <div>Hello World</div>,
+  <Fail>Hello World!</Fail>,
   document.getElementById('app'),
 );
 
