@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { shuffle } from 'lodash/fp';
 
 import Question from 'question';
 import Win from 'Win';
@@ -29,7 +30,7 @@ export default class App extends Component {
       const currentQuestion=questions[Math.floor(Math.random() * questions.length)];
       return (
         <Question
-          answer={currentQuestion.answers}
+          answer={shuffle(currentQuestion.answers)}
           onAnswer={won => this.setState({ responded: { won } })}
           question={currentQuestion.question}
           />
