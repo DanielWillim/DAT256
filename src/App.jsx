@@ -27,15 +27,18 @@ const questions = [
 ];
 
 export default class App extends Component {
+
   state = {
     responded: false,
+    currentQuestion: questions[Math.floor(Math.random() * questions.length)],
   }
 
   render() {
     const { responded } = this.state;
+    const { currentQuestion } = this.state;
+
 
     if (!responded) {
-      const currentQuestion=questions[Math.floor(Math.random() * questions.length)];
       return (
         <Question
           answer={shuffle(currentQuestion.answers)}
