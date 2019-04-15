@@ -9,8 +9,9 @@ const questions = [
 {question:"Vad heter statyn på Götaplatsen?", answers:[["Poseidon", true], ["Pseudonymen", false], ["Presten", false], ["Panamaen", false]]},
 {question:"Vad har Valand fått sitt namn ifrån?", answers:[["Völund", true], ["Valund", false], ["Velund", false], ["Vilund", false]]},
 {question:"Vad heter den långa gatan mellan kungsportsplatsen och götaplatsen?", answers:[["Kungsportsavenyn", true], ["Götaplatsavenyn", false], ["Kungsportsgatan", false], ["Götaplatsgatan", false]]},
-]
-
+  { question: "Frågan", answers: [["Svar", true], ["Fel svar", false]]},
+  {question: "Vad är kurskoden för denna kurs?", answers:[["DAT256", true], ["DAT356", false], ["TAD007", false], ["TAD256", false]] }
+];
 export default class App extends Component {
   state = {
     responded: false,
@@ -20,11 +21,12 @@ export default class App extends Component {
     const { responded } = this.state;
 
     if (!responded) {
+      const currentQuestion=questions[Math.floor(Math.random() * questions.length)];
       return (
         <Question
-          answer={[["DAT256", true], ["DAT356", false], ["TAD007", false], ["TAD256", false]]}
+          answer={currentQuestion.answers}
           onAnswer={won => this.setState({ responded: { won } })}
-          question="Vad är kurskoden för denna kurs?"
+          question={currentQuestion.question}
           />
       );
     } else if (responded.won) {
