@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import App from 'App'
 
-let test = 0;
-
 export default class Winning extends Component {
 
   state ={test:0}
