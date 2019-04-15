@@ -51,6 +51,11 @@ export default class App extends Component {
     responded: false,
   }
 
+  nextQuestion=()=>{
+    console.log("nextQestion körs!")
+    this.setState({responded: false})
+  }
+
   render() {
     const { responded } = this.state;
 
@@ -63,8 +68,10 @@ export default class App extends Component {
           question={currentQuestion.question}
         />
       );
-    } if (responded.won) {
-      return (<Win />);
+    } else if (responded.won) {
+      return (<Win onNext={this.nextQuestion}/>);
+    } else {
+      return (<Fail onNext={this.nextQuestion} />);
     }
     return (<Fail />);
   }
