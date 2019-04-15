@@ -1,6 +1,7 @@
 import React from 'react';
 
-export default function Fail (){
+export default function Fail (props){
+	
   return(
 <div>
 	<center>
@@ -8,6 +9,8 @@ export default function Fail (){
 			<b>Fail!</b>
 			<br />
 			<i>Wrong anwser</i>
+			<br />
+			<button onClick={props.onNext}>Fler frågor!</button> 
 		</font>
 
 	</center>
