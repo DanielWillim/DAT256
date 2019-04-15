@@ -47,8 +47,10 @@ const questions = [
 ];
 
 export default class App extends Component {
+
   state = {
     responded: false,
+    currentQuestion: questions[Math.floor(Math.random() * questions.length)],
   }
 
   nextQuestion=()=>{
@@ -58,9 +60,10 @@ export default class App extends Component {
 
   render() {
     const { responded } = this.state;
+    const { currentQuestion } = this.state;
+
 
     if (!responded) {
-      const currentQuestion = questions[Math.floor(Math.random() * questions.length)];
       return (
         <Question
           answer={shuffle(currentQuestion.answers)}
