@@ -70,7 +70,6 @@ const theme = createMuiTheme({
       default: purple[300],
     },
   },
-  typography: { useNextVariants: true },
 });
 
 class App extends Component {

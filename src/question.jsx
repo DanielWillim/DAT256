@@ -7,20 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 
 const styles = () => ({
-  card: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  lowered: {
-    marginTop: 12,
-  },
+  card: { minWidth: 275 },
+  lowered: { marginTop: 12 },
 });
 
 function Question({
@@ -28,14 +16,13 @@ function Question({
   question,
   category,
   onAnswer,
-  classes: {
-    card, title, lowered,
-  },
+
+  classes: { card, lowered },
 }) {
   return (
     <Card className={card}>
       <CardContent>
-        <Typography className={title} color="textSecondary" gutterBottom>
+        <Typography variant="body1" color="textSecondary">
           {category}
         </Typography>
         <Typography variant="h6" className={lowered}>
