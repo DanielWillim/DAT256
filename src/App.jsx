@@ -85,11 +85,12 @@ class App extends Component {
   }
 
   render() {
-    const { responded } = this.state;
-    const { currentQuestion } = this.state;
+    const { responded, currentQuestion: { answers, question } } = this.state;
+    const correctAnswers = answers
+      .filter(([ , isCorrect]) => isCorrect)
+      .map(([answer, ]) => answer)
 
     const { classes: { main } } = this.props;
-
 
     if (!responded) {
       return (
@@ -98,19 +99,18 @@ class App extends Component {
           <main className={main}>
             <Question
               category="Lokalområdet"
-              answers={shuffle(currentQuestion.answers)}
+              answers={shuffle(answers)}
               onAnswer={won => this.setState({ responded: { won } })}
-              question={currentQuestion.question}
+              question={question}
             />
           </main>
         </MuiThemeProvider>
       );
     } else if (responded.won) {
-      return (<Win onNext={this.nextQuestion}/>);
+      return (<Win onNext={this.nextQuestion} answer={correctAnswers} />);
     } else {
-      return (<Fail onNext={this.nextQuestion} />);
+      return (<Fail onNext={this.nextQuestion} answer={correctAnswers} />);
     }
-    return (<Fail />);
   }
 }
 
