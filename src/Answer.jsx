@@ -8,7 +8,9 @@ export default class Answer extends Component {
 
   render() {
     return (
-      <div onClick={this.onAnswer}> {this.props.answer} </div>
+      <div onClick={this.onAnswer}>
+       {this.props.answer} 
+      </div>
     );
   }
 
