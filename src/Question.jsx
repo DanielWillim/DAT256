@@ -1,10 +1,11 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 
 const styles = () => ({
   card: { minWidth: 275 },
@@ -13,11 +14,10 @@ const styles = () => ({
 
 function Question({
   answers,
-  question,
   category,
-  onAnswer,
-
   classes: { card, lowered },
+  onAnswer,
+  question,
 }) {
   return (
     <Card className={card}>

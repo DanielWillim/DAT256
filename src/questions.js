@@ -164,4 +164,6 @@ export const questions = [
   },
 ];
 
-export const randomQuestion = () => questions[Math.floor(Math.random() * questions.length)];
+export const randomQuestion = () => (
+  questions[Math.floor(Math.random() * questions.length)]
+);

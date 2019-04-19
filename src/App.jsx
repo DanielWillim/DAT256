@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import { shuffle } from 'lodash/fp';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core/styles';
-import purple from '@material-ui/core/colors/deepPurple';
 
-import Question from 'question';
-import Win from 'Win';
-import Fail from 'fail';
+import purple from '@material-ui/core/colors/deepPurple';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import {
+  createMuiTheme,
+  MuiThemeProvider,
+  withStyles,
+} from '@material-ui/core/styles';
+import { shuffle } from 'lodash/fp';
+
+import Fail from 'Fail';
+import Question from 'Question';
 import { randomQuestion } from 'questions';
+import Win from 'Win';
 
 
 const styles = theme => ({
@@ -40,12 +45,16 @@ class App extends Component {
     points: 0,
   }
 
-  nextQuestion=() => {
+  nextQuestion = () => {
     this.setState({ responded: false, currentQuestion: randomQuestion() });
   }
 
   render() {
-    const { responded, currentQuestion: { answers, question }, points } = this.state;
+    const {
+      currentQuestion: { answers, question },
+      points,
+      responded,
+    } = this.state;
     const correctAnswers = answers
       .filter(([, isCorrect]) => isCorrect)
       .map(([answer]) => answer);

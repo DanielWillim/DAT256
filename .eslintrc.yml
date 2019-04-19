@@ -3,12 +3,15 @@ env:
   es6: true
 extends:
   - airbnb
-  - plugin:import/react
   - plugin:flowtype/recommended
+  - plugin:import/react
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
 settings:
+  import/core-modules:
+    - react
+    - react-dom
   import/resolver:
     babel-module:
 parserOptions:
@@ -18,8 +21,30 @@ parserOptions:
   ecmaVersion: 9
   sourceType: module
 plugins:
-  - react
-  - import
+  - eslint-plugin-import-order-alphabetical
   - flowtype
+  - import
+  - react
+  - sort-destructure-keys
 rules:
+  import-order-alphabetical/order: error
+  import/order:
+    - error
+    - groups:
+        - builtin
+        - external
+        - index
+        - internal
+        - parent
+        - sibling
+      newlines-between: always
+  max-len:
+    - error
+    - code: 80
+      ignoreComments: false
+      ignoreRegExpLiterals: true
+      ignoreStrings: true
+      ignoreTemplateLiterals: true
+      ignoreUrls: true
   react/prop-types: off
+  sort-destructure-keys/sort-destructure-keys: error
