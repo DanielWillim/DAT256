@@ -1,16 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import App from 'App'
-
-export default function Winning(props){
-    return (
-      <p>
-        <h1>Grattis, rätt svar är "{props.answer.join('" eller "')}" och du svarade rätt!</h1>
-        <br />
-        <button onClick={props.onNext}>Fler frågor!</button>
-        <br />
-        <br />
-        <h1>Du har {props.points} poäng!</h1>
-      </p>
-    )
-  }
+export default function Winning({ answer, onNext, points }) {
+  return (
+    <p>
+      <h1>
+        Grattis, rätt svar är &quot;
+        {answer.join('" eller "')}
+        &quot; och du svarade rätt!
+      </h1>
+      <br />
+      <button type="button" onClick={onNext}>Fler frågor!</button>
+      <br />
+      <br />
+      <h1>
+        Du har&nbsp;
+        {points}
+        &nbsp;poäng!
+      </h1>
+    </p>
+  );
+}

@@ -37,19 +37,18 @@ class App extends Component {
   state = {
     responded: false,
     currentQuestion: randomQuestion(),
-    points: 0
+    points: 0,
   }
 
-  nextQuestion=()=>{
-    console.log("nextQestion körs!")
+  nextQuestion=() => {
     this.setState({ responded: false, currentQuestion: randomQuestion() });
   }
 
   render() {
-    const { responded, currentQuestion: { answers, question } } = this.state;
+    const { responded, currentQuestion: { answers, question }, points } = this.state;
     const correctAnswers = answers
-      .filter(([ , isCorrect]) => isCorrect)
-      .map(([answer, ]) => answer)
+      .filter(([, isCorrect]) => isCorrect)
+      .map(([answer]) => answer);
 
     const { classes: { main } } = this.props;
 
@@ -61,23 +60,36 @@ class App extends Component {
             <Question
               category="Lokalområdet"
               answers={shuffle(answers)}
-              onAnswer={won => {
+              onAnswer={(won) => {
                 this.setState({ responded: { won } });
-                if (won){
-                  this.setState({points: this.state.points + 1})
+                if (won) {
+                  this.setState({ points: points + 1 });
                 }
               }}
-              onAnswer={won => this.setState({ responded: { won } })}
               question={question}
             />
           </main>
         </MuiThemeProvider>
       );
-    } else if (responded.won) {
-      return (<Win onNext={this.nextQuestion} answer={correctAnswers} points={this.state.points}/>);
-    } else {
-      return (<Fail onNext={this.nextQuestion} answer={correctAnswers} points={this.state.points}/>);
     }
+
+    if (responded.won) {
+      return (
+        <Win
+          onNext={this.nextQuestion}
+          answer={correctAnswers}
+          points={points}
+        />
+      );
+    }
+
+    return (
+      <Fail
+        onNext={this.nextQuestion}
+        answer={correctAnswers}
+        points={points}
+      />
+    );
   }
 }
 
