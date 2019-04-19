@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { shuffle } from 'lodash/fp';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core/styles';
+import purple from '@material-ui/core/colors/deepPurple';
 
 import Question from 'question';
 import Win from 'Win';
@@ -7,8 +10,30 @@ import Fail from 'fail';
 import { randomQuestion } from 'questions';
 
 
+const styles = theme => ({
+  main: {
+    width: 'auto',
+    display: 'block', // Fix IE 11 issue.
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 8,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+});
 
-export default class App extends Component {
+const theme = createMuiTheme({
+  palette: {
+    background: {
+      default: purple[300],
+    },
+  },
+});
+
+class App extends Component {
   state = {
     responded: false,
     currentQuestion: randomQuestion(),
@@ -26,25 +51,34 @@ export default class App extends Component {
       .filter(([ , isCorrect]) => isCorrect)
       .map(([answer, ]) => answer)
 
+    const { classes: { main } } = this.props;
+
     if (!responded) {
       return (
-        <Question
-          answer={shuffle(answers)}
-          onAnswer={won => {
-            this.setState({ responded: { won } });
-            if (won){
-              this.setState({points: this.state.points + 1})
-            }
-          }
-        }
-          question={question}
-        />
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <main className={main}>
+            <Question
+              category="Lokalområdet"
+              answers={shuffle(answers)}
+              onAnswer={won => {
+                this.setState({ responded: { won } });
+                if (won){
+                  this.setState({points: this.state.points + 1})
+                }
+              }}
+              onAnswer={won => this.setState({ responded: { won } })}
+              question={question}
+            />
+          </main>
+        </MuiThemeProvider>
       );
     } else if (responded.won) {
       return (<Win onNext={this.nextQuestion} answer={correctAnswers} points={this.state.points}/>);
     } else {
       return (<Fail onNext={this.nextQuestion} answer={correctAnswers} points={this.state.points}/>);
     }
-    return (<Fail />);
   }
 }
+
+export default withStyles(styles)(App);
