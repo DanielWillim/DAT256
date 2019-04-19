@@ -37,6 +37,7 @@ class App extends Component {
   state = {
     responded: false,
     currentQuestion: randomQuestion(),
+    points: 0
   }
 
   nextQuestion=()=>{
@@ -60,6 +61,12 @@ class App extends Component {
             <Question
               category="Lokalområdet"
               answers={shuffle(answers)}
+              onAnswer={won => {
+                this.setState({ responded: { won } });
+                if (won){
+                  this.setState({points: this.state.points + 1})
+                }
+              }}
               onAnswer={won => this.setState({ responded: { won } })}
               question={question}
             />
@@ -67,9 +74,9 @@ class App extends Component {
         </MuiThemeProvider>
       );
     } else if (responded.won) {
-      return (<Win onNext={this.nextQuestion} answer={correctAnswers} />);
+      return (<Win onNext={this.nextQuestion} answer={correctAnswers} points={this.state.points}/>);
     } else {
-      return (<Fail onNext={this.nextQuestion} answer={correctAnswers} />);
+      return (<Fail onNext={this.nextQuestion} answer={correctAnswers} points={this.state.points}/>);
     }
   }
 }
