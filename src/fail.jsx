@@ -11,6 +11,8 @@ export default function Fail (props){
 			<i>Fel svar, det rätta svaret är "{props.answer.join('" eller "')}"</i>
 			<br />
 			<button onClick={props.onNext}>Fler frågor!</button>
+			<br />
+			<i>Du har {props.points} poäng!</i>
 		</font>
 
 	</center>
