@@ -17,8 +17,13 @@ function Question({
   category,
   classes: { card, lowered },
   onAnswer,
+  onTimeOut,
   question,
+  timer,
 }) {
+  const questionTimer = setTimeout(onTimeOut, timer);
+  const timeWhenStarted = (new Date()).getTime();
+
   return (
     <Card className={card}>
       <CardContent>
@@ -31,7 +36,14 @@ function Question({
       </CardContent>
       <Divider />
       { answers.map(([text, isCorrect]) => (
-        <CardActionArea key={text} onClick={() => onAnswer(isCorrect)}>
+        <CardActionArea
+          key={text}
+          onClick={() => {
+            const timeLeft = timer - ((new Date()).getTime() - timeWhenStarted);
+            clearTimeout(questionTimer);
+            onAnswer(isCorrect, timeLeft);
+          }}
+        >
           <CardContent>
             <Typography variant="body1">
               {text}
