@@ -4,13 +4,13 @@ export default function GameOver({ answer, onNext, points }) {
   return (
     <p>
       <h1>
-            GAME OVVER! &quot;
+        GAME OVVER!
       </h1>
       <br />
       <h1>
-            Rätt svar var
+        Rätt svar var &quot;
         {answer.join('" eller "')}
-            &quot;!
+        &quot;!
       </h1>
       <br />
       <button type="button" onClick={onNext}>Starta om!</button>
