@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
-import { shuffle } from 'lodash/fp';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { createMuiTheme, MuiThemeProvider, withStyles } from '@material-ui/core/styles';
-import purple from '@material-ui/core/colors/deepPurple';
 
-import Question from 'question';
-import Win from 'Win';
-import Fail from 'fail';
+import purple from '@material-ui/core/colors/deepPurple';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import {
+  createMuiTheme,
+  MuiThemeProvider,
+  withStyles,
+} from '@material-ui/core/styles';
+import { shuffle } from 'lodash/fp';
+
+import Fail from 'Fail';
+import Question from 'Question';
 import { randomQuestion } from 'questions';
+import Win from 'Win';
 
 
 const styles = theme => ({
@@ -37,19 +42,22 @@ class App extends Component {
   state = {
     responded: false,
     currentQuestion: randomQuestion(),
-    points: 0
+    points: 0,
   }
 
-  nextQuestion=()=>{
-    console.log("nextQestion körs!")
+  nextQuestion = () => {
     this.setState({ responded: false, currentQuestion: randomQuestion() });
   }
 
   render() {
-    const { responded, currentQuestion: { answers, question } } = this.state;
+    const {
+      currentQuestion: { answers, question },
+      points,
+      responded,
+    } = this.state;
     const correctAnswers = answers
-      .filter(([ , isCorrect]) => isCorrect)
-      .map(([answer, ]) => answer)
+      .filter(([, isCorrect]) => isCorrect)
+      .map(([answer]) => answer);
 
     const { classes: { main } } = this.props;
 
@@ -61,23 +69,36 @@ class App extends Component {
             <Question
               category="Lokalområdet"
               answers={shuffle(answers)}
-              onAnswer={won => {
+              onAnswer={(won) => {
                 this.setState({ responded: { won } });
-                if (won){
-                  this.setState({points: this.state.points + 1})
+                if (won) {
+                  this.setState({ points: points + 1 });
                 }
               }}
-              onAnswer={won => this.setState({ responded: { won } })}
               question={question}
             />
           </main>
         </MuiThemeProvider>
       );
-    } else if (responded.won) {
-      return (<Win onNext={this.nextQuestion} answer={correctAnswers} points={this.state.points}/>);
-    } else {
-      return (<Fail onNext={this.nextQuestion} answer={correctAnswers} points={this.state.points}/>);
     }
+
+    if (responded.won) {
+      return (
+        <Win
+          onNext={this.nextQuestion}
+          answer={correctAnswers}
+          points={points}
+        />
+      );
+    }
+
+    return (
+      <Fail
+        onNext={this.nextQuestion}
+        answer={correctAnswers}
+        points={points}
+      />
+    );
   }
 }
 
