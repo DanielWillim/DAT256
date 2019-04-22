@@ -8,9 +8,9 @@
   font-weight: 400;
   src: local('Material Icons'),
        local('MaterialIcons-Regular'),
-       url(/font/material-iocons/MaterialIcons-Regular.woff2) format('woff2'),
-       url(/font/material-iocons/MaterialIcons-Regular.woff) format('woff'),
-       url(/font/material-iocons/MaterialIcons-Regular.ttf) format('truetype');
+       url(./material-icons/MaterialIcons-Regular.woff2) format('woff2'),
+       url(./material-icons/MaterialIcons-Regular.woff) format('woff'),
+       url(./material-icons/MaterialIcons-Regular.ttf) format('truetype');
 }
 
 .material-icons {
@@ -47,22 +47,22 @@
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 300;
-    src: url(/font/roboto/Roboto-Light.woff2) format('woff2'),
-         url(/font/roboto/Roboto-Light.ttf) format('truetype');
+    src: url(./roboto/Roboto-Light.woff2) format('woff2'),
+         url(./roboto/Roboto-Light.ttf) format('truetype');
 }
 
 @font-face {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
-    src: url(/font/roboto/Roboto-Regular.woff2) format('woff2'),
-         url(/font/roboto/Roboto-Regular.ttf) format('truetype');
+    src: url(./roboto/Roboto-Regular.woff2) format('woff2'),
+         url(./roboto/Roboto-Regular.ttf) format('truetype');
 }
 
 @font-face {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 500;
-    src: url(/font/roboto/Roboto-Medium.woff2) format('woff2'),
-         url(/font/roboto/Roboto-Medium.ttf) format('truetype');
+    src: url(./roboto/Roboto-Medium.woff2) format('woff2'),
+         url(./roboto/Roboto-Medium.ttf) format('truetype');
 }

@@ -12,6 +12,7 @@ settings:
   import/core-modules:
     - react
     - react-dom
+    - webpack
   import/resolver:
     babel-module:
 parserOptions:
