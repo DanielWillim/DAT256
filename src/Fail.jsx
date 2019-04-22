@@ -1,6 +1,11 @@
 import React from 'react';
 
-export default function Fail({ answer, onNext, points, timer }) {
+export default function Fail({
+  answer,
+  onNext,
+  points,
+  timer,
+}) {
   return (
     <div>
       <center>
@@ -22,14 +27,10 @@ export default function Fail({ answer, onNext, points, timer }) {
           </i>
           <i>
             Du har&nbsp;
-            {timer/1000}
+            {timer / 1000}
             &nbsp;sekunder kvar!
           </i>
-          
-
-          
         </font>
-
       </center>
     </div>
   );

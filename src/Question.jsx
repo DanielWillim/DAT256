@@ -15,16 +15,14 @@ const styles = () => ({
 function Question({
   answers,
   category,
-  timer,  
-  onTimeOut,
-  newTimer,
   classes: { card, lowered },
   onAnswer,
+  onTimeOut,
   question,
+  timer,
 }) {
-
-  let questionTimer = setTimeout( onTimeOut , timer )
-  let timeWhenStarted = (new Date()).getTime();
+  const questionTimer = setTimeout(onTimeOut, timer);
+  const timeWhenStarted = (new Date()).getTime();
 
   return (
     <Card className={card}>
@@ -38,10 +36,14 @@ function Question({
       </CardContent>
       <Divider />
       { answers.map(([text, isCorrect]) => (
-        <CardActionArea key={text} onClick={() => (
-          clearTimeout(questionTimer),                                  //Might not work when it goes from
-          onAnswer(isCorrect, timer - ( (new Date()).getTime() - timeWhenStarted ) )  //23:59-00:00
-          )}>
+        <CardActionArea
+          key={text}
+          onClick={() => {
+            const timeLeft = timer - ((new Date()).getTime() - timeWhenStarted);
+            clearTimeout(questionTimer);
+            onAnswer(isCorrect, timeLeft);
+          }}
+        >
           <CardContent>
             <Typography variant="body1">
               {text}

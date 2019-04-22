@@ -10,10 +10,10 @@ import {
 import { shuffle } from 'lodash/fp';
 
 import Fail from 'Fail';
+import GameOver from 'GameOver';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
 import Win from 'Win';
-import GameOver from 'GameOver';
 
 
 const styles = theme => ({
@@ -40,14 +40,13 @@ const theme = createMuiTheme({
 });
 
 class App extends Component {
-
   state = {
     responded: false,
     currentQuestion: randomQuestion(),
     points: 0,
     setStartTimer: 10000,
     timer: 10000,
-    gameOver: false
+    gameOver: false,
   }
 
   nextQuestion = () => {
@@ -59,22 +58,24 @@ class App extends Component {
   }
 
   restartQuestions = () => {
-    this.setState({ 
-      gameOver: false, 
-      responded: false, 
-      timer: this.state.setStartTimer, 
-      points: 0, 
-      currentQuestion: 
-      randomQuestion()});
+    const { setStartTimer } = this.state;
+
+    this.setState({
+      gameOver: false,
+      responded: false,
+      timer: setStartTimer,
+      points: 0,
+      currentQuestion: randomQuestion(),
+    });
   }
 
   render() {
     const {
-      responded,
       currentQuestion: { answers, question },
-      points,
-      timer,
       gameOver,
+      points,
+      responded,
+      timer,
     } = this.state;
     const correctAnswers = answers
       .filter(([, isCorrect]) => isCorrect)
@@ -95,9 +96,8 @@ class App extends Component {
                 this.setState({ responded: { won } });
                 if (won) {
                   this.setState({ points: points + 1, timer: newTimer + 3000 });
-                }
-                else{
-                  this.setState({timer: newTimer - 1000})
+                } else {
+                  this.setState({ timer: newTimer - 1000 });
                 }
               }}
               question={question}
@@ -107,7 +107,7 @@ class App extends Component {
       );
     }
 
-    else if (responded.won) {
+    if (responded.won) {
       return (
         <Win
           onNext={this.nextQuestion}
@@ -117,7 +117,8 @@ class App extends Component {
         />
       );
     }
-    else if (gameOver) {
+
+    if (gameOver) {
       return (
         <GameOver
           onNext={this.restartQuestions}
