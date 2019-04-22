@@ -3,3 +3,13 @@ node_js:
   - 10.15
 before_script:
   - npm ci
+before_deploy:
+  - npm run build
+deploy:
+  - provider: pages
+    github_token: $GITHUB_TOKEN
+    local_dir: dist
+    skip_cleanup: true
+    keep_history: true
+    on:
+      branch: master
