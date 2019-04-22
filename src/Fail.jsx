@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Fail({ answer, onNext, points }) {
+export default function Fail({ answer, onNext, points, timer }) {
   return (
     <div>
       <center>
@@ -20,6 +20,14 @@ export default function Fail({ answer, onNext, points }) {
             {points}
             &nbsp;poäng!
           </i>
+          <i>
+            Du har&nbsp;
+            {timer/1000}
+            &nbsp;sekunder kvar!
+          </i>
+          
+
+          
         </font>
 
       </center>

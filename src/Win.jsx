@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function Winning({ answer, onNext, points }) {
+export default function Winning({ answer, onNext, points, timer }) {
   return (
     <p>
       <h1>
@@ -16,6 +16,12 @@ export default function Winning({ answer, onNext, points }) {
         Du har&nbsp;
         {points}
         &nbsp;poäng!
+      </h1>
+      <br />
+      <h1>
+        Du har&nbsp;
+        {timer/1000}
+        &nbsp;sekunder kvar!
       </h1>
     </p>
   );

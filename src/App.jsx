@@ -13,6 +13,7 @@ import Fail from 'Fail';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
 import Win from 'Win';
+import GameOver from 'GameOver';
 
 
 const styles = theme => ({
@@ -39,28 +40,47 @@ const theme = createMuiTheme({
 });
 
 class App extends Component {
+
   state = {
     responded: false,
     currentQuestion: randomQuestion(),
     points: 0,
+    setStartTimer: 10000,
+    timer: 10000,
+    gameOver: false
   }
 
   nextQuestion = () => {
     this.setState({ responded: false, currentQuestion: randomQuestion() });
   }
 
+  timerRunOut = () => {
+    this.setState({ gameOver: true, responded: true });
+  }
+
+  restartQuestions = () => {
+    this.setState({ 
+      gameOver: false, 
+      responded: false, 
+      timer: this.state.setStartTimer, 
+      points: 0, 
+      currentQuestion: 
+      randomQuestion()});
+  }
+
   render() {
     const {
+      responded,
       currentQuestion: { answers, question },
       points,
-      responded,
+      timer,
+      gameOver,
     } = this.state;
     const correctAnswers = answers
       .filter(([, isCorrect]) => isCorrect)
       .map(([answer]) => answer);
 
     const { classes: { main } } = this.props;
-
     if (!responded) {
       return (
         <MuiThemeProvider theme={theme}>
@@ -69,10 +89,15 @@ class App extends Component {
             <Question
               category="Lokalområdet"
               answers={shuffle(answers)}
-              onAnswer={(won) => {
+              timer={timer}
+              onTimeOut={this.timerRunOut}
+              onAnswer={(won, newTimer) => {
                 this.setState({ responded: { won } });
                 if (won) {
-                  this.setState({ points: points + 1 });
+                  this.setState({ points: points + 1, timer: newTimer + 3000 });
+                }
+                else{
+                  this.setState({timer: newTimer - 1000})
                 }
               }}
               question={question}
@@ -82,10 +107,20 @@ class App extends Component {
       );
     }
 
-    if (responded.won) {
+    else if (responded.won) {
       return (
         <Win
           onNext={this.nextQuestion}
+          answer={correctAnswers}
+          points={points}
+          timer={timer}
+        />
+      );
+    }
+    else if (gameOver) {
+      return (
+        <GameOver
+          onNext={this.restartQuestions}
           answer={correctAnswers}
           points={points}
         />
@@ -97,6 +132,7 @@ class App extends Component {
         onNext={this.nextQuestion}
         answer={correctAnswers}
         points={points}
+        timer={timer}
       />
     );
   }
