@@ -7,7 +7,7 @@
     "build": "webpack --mode production",
     "start": "webpack-dev-server --open --mode development",
     "flow": "flow",
-    "lint": "eslint --ext .js --ext .jsx .",
+    "lint": "eslint --ignore-path .gitignore --ext .js --ext .jsx .",
     "test": "npm run lint"
   },
   "repository": {
