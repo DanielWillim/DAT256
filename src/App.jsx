@@ -109,12 +109,19 @@ class App extends Component {
 
     if (responded.won) {
       return (
-        <Win
-          onNext={this.nextQuestion}
-          answer={correctAnswers}
-          points={points}
-          timer={timer}
-        />
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <main className={main}>
+            <Win
+              onNext={this.nextQuestion}
+              answers={answers}
+              categoty="Lokalområde"
+              question={question}
+              points={points}
+              timer={timer}
+            />
+          </main>
+        </MuiThemeProvider>
       );
     }
 
