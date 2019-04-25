@@ -97,7 +97,9 @@ class App extends Component {
                 if (won) {
                   this.setState({ points: points + 1, timer: newTimer + 3000 });
                 } else if (points > 0) {
-                  this.setState({ points: points - 1 });
+                  this.setState({ points: points - 1, timer: newTimer });
+                } else {
+                  this.setState({ timer: newTimer });
                 }
               }}
               question={question}
