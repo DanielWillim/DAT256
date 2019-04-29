@@ -12,10 +12,11 @@ const styles = () => ({
   lowered: { marginTop: 12 },
 });
 
-function Winning({
+function Answer({
   answers,
   category,
   classes: { card, lowered },
+  mening,
   onNext,
   points,
   question,
@@ -44,11 +45,14 @@ function Winning({
               {text}
             </Typography>
           </CardContent>
+
         </CardActionArea>
       ))}
       <br />
-      <Typography variant="body1">
-        Grattis, du svarade rätt! Du har&nbsp;
+      <Typography variant="h6">
+        {mening}
+        <br />
+        Du har&nbsp;
         {points}
         &nbsp;poäng!
       </Typography>
@@ -65,4 +69,4 @@ function Winning({
   );
 }
 
-export default withStyles(styles)(Winning);
+export default withStyles(styles)(Answer);

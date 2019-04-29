@@ -9,11 +9,10 @@ import {
 } from '@material-ui/core/styles';
 import { shuffle } from 'lodash/fp';
 
-import Fail from 'Fail';
+import Answer from 'Answer';
 import GameOver from 'GameOver';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
-import Win from 'Win';
 
 
 const styles = theme => ({
@@ -112,10 +111,11 @@ class App extends Component {
         <MuiThemeProvider theme={theme}>
           <CssBaseline />
           <main className={main}>
-            <Win
+            <Answer
+              mening="Grattis du svarade rätt!"
               onNext={this.nextQuestion}
               answers={answers}
-              categoty="Lokalområde"
+              category="Lokalområde"
               question={question}
               points={points}
               timer={timer}
@@ -136,12 +136,20 @@ class App extends Component {
     }
 
     return (
-      <Fail
-        onNext={this.nextQuestion}
-        answer={correctAnswers}
-        points={points}
-        timer={timer}
-      />
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <main className={main}>
+          <Answer
+            mening="Fail! Du svarade fel!"
+            onNext={this.nextQuestion}
+            answers={answers}
+            category="Lokalområde"
+            question={question}
+            points={points}
+            timer={timer}
+          />
+        </main>
+      </MuiThemeProvider>
     );
   }
 }
