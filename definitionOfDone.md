@@ -17,10 +17,13 @@ Håller user stories innan de blivit estimerade och planerade att genomföras un
 Håller user stories och tasks planerade att genomföras under pågående sprint. 
 
 ### Krav
+* Alla user stories och tasks tilldelas label för denna sprint.
+  * Kvarvarande user stories och tasks från förra sprinten, ska få båda labels.
 * User Story 
   * Listar eventuella tasks
 * Task
   * Följer mallen för task
+
 
 ### Förflyttas till `In Progress`
 * När en person tar på sig att genomföra tasken/storyn 
