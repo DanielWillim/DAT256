@@ -42,7 +42,7 @@ function Answer({
           }}
         >
           <CardContent style={
-            { backgroundColor: isCorrect ? '#42f442' : text === answered ? '#red' : 'white'}}
+            { backgroundColor: isCorrect ? '#42f442' : !isCorrect && text === answered ? 'red' : 'white' }}
           >
             <Typography variant="body1">
               {text}
@@ -53,7 +53,6 @@ function Answer({
       <br />
       <Typography variant="h6">
         {mening}
-        {'' + answered}
         <br />
         Du har&nbsp;
         {points}
