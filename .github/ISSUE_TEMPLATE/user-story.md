@@ -10,7 +10,7 @@ assignees: ''
 **As a** .... (for whom is value created) **I want to** ... (what creates value) **since** ... (what is the value in this)
 
 # Tasks
-* [ ] ...
+* [ ] Lists all tasks (with id ex. #16) from potential break down
 
 # Acceptance Criteria
 * [ ] ...
