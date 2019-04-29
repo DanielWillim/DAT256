@@ -42,7 +42,7 @@ En story eller task som just nu arbetas på.
 ### Förflyttas till `Review` 
 * När alla acceptens kriterier och defintion of done är uppfyllda.
 * Måste finnas en pull request som uppfyller kraven.
-  * Pull ruesten ska i kommentaren referera till vilken user story eller task den löser
+  * Pull requesten ska i kommentaren referera till vilken user story eller task den löser
  
  
 ## `Review`
@@ -51,10 +51,12 @@ En story eller task som väntar på kommentarer.
 ### Krav
 
 ### Förflyttas till `In Progess`  
-* Om storyn/tasken kräver förändring ska personerna som är ansvarig för storyn/tasken (assignees) flytta tillbaka den.
+* Om storyn/tasken kräver förändring ska personerna som är ansvarig för storyn/tasken (assignees) flytta tillbaka den
 
 ### Förflyttas till `Done`  
-* Flyttas över av den person som mergar
+* Person som godkänner ska ha förståelse för vad koden gör, annars lämna kommentar och be om förklaring
+  * Vid parprogrammering ska inte den andra parter godkänna
+  * Flyttas över av den person som mergar
 * Task
   * Klarmarkera tasken i länkad user story
   * Om alla task är avklarade flytta även User storyn 
