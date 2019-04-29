@@ -42,6 +42,7 @@ En story eller task som just nu arbetas på.
 ### Förflyttas till `Review` 
 * När alla acceptens kriterier och defintion of done är uppfyllda.
 * Måste finnas en pull request som uppfyller kraven.
+  * Pull ruesten ska i kommentaren referera till vilken user story eller task den löser
  
  
 ## `Review`
