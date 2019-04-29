@@ -50,7 +50,7 @@ En story eller task som väntar på kommentarer.
 
 ### Krav
 
-### Förflyttas till `In Progess`  
+### Förflyttas till `In Progress`  
 * Om storyn/tasken kräver förändring ska personerna som är ansvarig för storyn/tasken (assignees) flytta tillbaka den
 
 ### Förflyttas till `Done`  
@@ -62,8 +62,4 @@ En story eller task som väntar på kommentarer.
   * Om alla task är avklarade flytta även User storyn 
  
 ## `Done`
-Håller user stories, tasks och pullrequest som är färdiga. 
- 
-  
-
- 
+Håller user stories, tasks och pull request som är färdiga. 
