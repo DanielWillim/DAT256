@@ -6,6 +6,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import { setInterval } from 'timers';
+
 
 const styles = () => ({
   card: { minWidth: 275 },
@@ -14,6 +16,8 @@ const styles = () => ({
 
 function Question({
   answers,
+  viewTime,
+  viewTimeLeft,
   category,
   classes: { card, lowered },
   onAnswer,
@@ -21,7 +25,17 @@ function Question({
   question,
   timer,
 }) {
-  const questionTimer = setTimeout(onTimeOut, timer);
+
+  const timerFloor = timer / 1000;
+  const stopTimer = () => {
+    if (viewTime > 1) {
+      viewTimeLeft();
+    }
+    else {
+      onTimeOut();
+    }
+  };
+  const viewTimeTimer = setTimeout(stopTimer, (timer) - 1000 * Math.floor(timerFloor));
   const timeWhenStarted = (new Date()).getTime();
 
   return (
@@ -40,7 +54,7 @@ function Question({
           key={text}
           onClick={() => {
             const timeLeft = timer - ((new Date()).getTime() - timeWhenStarted);
-            clearTimeout(questionTimer);
+            clearTimeout(viewTimeTimer);
             onAnswer(isCorrect, timeLeft);
           }}
         >
@@ -51,6 +65,12 @@ function Question({
           </CardContent>
         </CardActionArea>
       ))}
+      <Divider />
+      <CardContent>
+        <Typography variant="body1">
+          {viewTime}
+        </Typography>
+      </CardContent>
     </Card>
   );
 }
