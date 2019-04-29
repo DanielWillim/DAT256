@@ -13,6 +13,7 @@ const styles = () => ({
 });
 
 function Answer({
+  answered,
   answers,
   category,
   classes: { card, lowered },
@@ -40,17 +41,19 @@ function Answer({
             console.log(isCorrect);
           }}
         >
-          <CardContent style={{ backgroundColor: '#42f442' }}>
+          <CardContent style={
+            { backgroundColor: isCorrect ? '#42f442' : text === answered ? '#red' : 'white'}}
+          >
             <Typography variant="body1">
               {text}
             </Typography>
           </CardContent>
-
         </CardActionArea>
       ))}
       <br />
       <Typography variant="h6">
         {mening}
+        {'' + answered}
         <br />
         Du har&nbsp;
         {points}

@@ -41,7 +41,7 @@ function Question({
           onClick={() => {
             const timeLeft = timer - ((new Date()).getTime() - timeWhenStarted);
             clearTimeout(questionTimer);
-            onAnswer(isCorrect, timeLeft);
+            onAnswer(isCorrect, timeLeft, text);
           }}
         >
           <CardContent>
