@@ -12,6 +12,18 @@ const styles = () => ({
   lowered: { marginTop: 12 },
 });
 
+function getBackgroundColor(isCorrect, text, answered) {
+  if (isCorrect) {
+    return '#42f442';
+  }
+
+  if (!isCorrect && text === answered) {
+    return 'red';
+  }
+
+  return 'white';
+}
+
 function Answer({
   answered,
   answers,
@@ -38,11 +50,11 @@ function Answer({
         <CardActionArea
           key={text}
           onClick={() => {
-            console.log(isCorrect);
+            // console.log(isCorrect);
           }}
         >
           <CardContent style={
-            { backgroundColor: isCorrect ? '#42f442' : !isCorrect && text === answered ? 'red' : 'white' }}
+            { backgroundColor: getBackgroundColor(isCorrect, text, answered) }}
           >
             <Typography variant="body1">
               {text}
