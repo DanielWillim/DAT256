@@ -20,9 +20,23 @@ function Question({
   onTimeOut,
   question,
   timer,
+  viewTimeLeft,
 }) {
-  const questionTimer = setTimeout(onTimeOut, timer);
   const timeWhenStarted = (new Date()).getTime();
+  const timerFloor = timer / 1000;
+
+  const stopTimer = () => {
+    if (timer > 1000) {
+      const timeLeft = timer - ((new Date()).getTime() - timeWhenStarted);
+      viewTimeLeft(timeLeft);
+    } else {
+      onTimeOut();
+    }
+  };
+
+  const gameTimer = setTimeout(
+    stopTimer, (timer) - 1000 * Math.floor(timerFloor),
+  );
 
   return (
     <Card className={card}>
@@ -40,7 +54,7 @@ function Question({
           key={text}
           onClick={() => {
             const timeLeft = timer - ((new Date()).getTime() - timeWhenStarted);
-            clearTimeout(questionTimer);
+            clearTimeout(gameTimer);
             onAnswer(isCorrect, timeLeft, text);
           }}
         >
@@ -51,6 +65,12 @@ function Question({
           </CardContent>
         </CardActionArea>
       ))}
+      <Divider />
+      <CardContent>
+        <Typography variant="body1">
+          {`Tid kvar: ${Math.ceil(timer / 1000)}`}
+        </Typography>
+      </CardContent>
     </Card>
   );
 }
