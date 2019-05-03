@@ -7,7 +7,6 @@ import {
   MuiThemeProvider,
   withStyles,
 } from '@material-ui/core/styles';
-import { shuffle } from 'lodash/fp';
 
 import Fail from 'Fail';
 import GameOver from 'GameOver';
@@ -59,7 +58,6 @@ class App extends Component {
 
   restartQuestions = () => {
     const { setStartTimer } = this.state;
-
     this.setState({
       gameOver: false,
       responded: false,
@@ -88,8 +86,11 @@ class App extends Component {
           <CssBaseline />
           <main className={main}>
             <Question
+              viewTimeLeft={(newTimer) => {
+                this.setState({ timer: newTimer });
+              }}
               category="Lokalområdet"
-              answers={shuffle(answers)}
+              answers={answers}
               timer={timer}
               onTimeOut={this.timerRunOut}
               onAnswer={(won, newTimer) => {
@@ -101,7 +102,8 @@ class App extends Component {
                 } else {
                   this.setState({ timer: newTimer });
                 }
-              }}
+              }
+            }
               question={question}
             />
           </main>

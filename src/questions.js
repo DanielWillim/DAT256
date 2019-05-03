@@ -1,3 +1,5 @@
+import { shuffle } from 'lodash/fp';
+
 export const questions = [
   {
     question: 'Vad är kurskoden för denna kurs?',
@@ -164,6 +166,10 @@ export const questions = [
   },
 ];
 
-export const randomQuestion = () => (
-  questions[Math.floor(Math.random() * questions.length)]
-);
+export const randomQuestion = () => {
+  const temp = questions[(Math.floor(Math.random() * questions.length))];
+  return {
+    question: temp.question,
+    answers: shuffle(temp.answers),
+  };
+};
