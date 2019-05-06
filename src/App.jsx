@@ -8,12 +8,13 @@ import {
   withStyles,
 } from '@material-ui/core/styles';
 
+import DeveloperModeGPSCheck from 'DeveloperModeGPSCheck';
 import Fail from 'Fail';
 import GameOver from 'GameOver';
+import GPSCheck, * as LocationStatus from 'GPSCheck';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
 import Win from 'Win';
-
 
 const styles = theme => ({
   main: {
@@ -46,6 +47,8 @@ class App extends Component {
     setStartTimer: 10000,
     timer: 10000,
     gameOver: false,
+    locationOk: LocationStatus.noLocation,
+    developerModeGPSCheck: false,
   }
 
   nextQuestion = () => {
@@ -70,7 +73,9 @@ class App extends Component {
   render() {
     const {
       currentQuestion: { answers, question },
+      developerModeGPSCheck,
       gameOver,
+      locationOk,
       points,
       responded,
       timer,
@@ -80,6 +85,39 @@ class App extends Component {
       .map(([answer]) => answer);
 
     const { classes: { main } } = this.props;
+    if (locationOk !== LocationStatus.validLocation) {
+      if (!developerModeGPSCheck) {
+        return (
+          <MuiThemeProvider theme={theme}>
+            <CssBaseline />
+            <main className={main}>
+              <GPSCheck
+                developerModeGPSCheck={(developerMode) => {
+                  this.setState({ developerModeGPSCheck: { developerMode } });
+                }}
+                locationCheck={(onStation) => {
+                  this.setState({ locationOk: onStation });
+                }}
+                locationOk={locationOk}
+              />
+            </main>
+          </MuiThemeProvider>
+        );
+      }
+      return (
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <main className={main}>
+            <DeveloperModeGPSCheck
+              locationCheck={(onStation) => {
+                this.setState({ locationOk: onStation });
+              }}
+              locationOk={locationOk}
+            />
+          </main>
+        </MuiThemeProvider>
+      );
+    }
     if (!responded) {
       return (
         <MuiThemeProvider theme={theme}>
