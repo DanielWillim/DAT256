@@ -8,12 +8,17 @@ import {
   withStyles,
 } from '@material-ui/core/styles';
 
+import DeveloperModeGPSCheck from 'DeveloperModeGPSCheck';
 import Fail from 'Fail';
 import GameOver from 'GameOver';
-import Question from 'Question';
+import GPSCheck, * as LocationStatus from 'GPSCheck';
+import Question, * as Timer from 'Question';
 import { randomQuestion } from 'questions';
+import { checkStations } from 'stations';
 import Win from 'Win';
 
+let GPSLocationTimer = setTimeout(0);
+let continusGPSChckerTimer = setTimeout(0);
 
 const styles = theme => ({
   main: {
@@ -46,6 +51,10 @@ class App extends Component {
     setStartTimer: 10000,
     timer: 10000,
     gameOver: false,
+    locationOk: LocationStatus.noLocation,
+    developerModeGPSCheck: false,
+    GPSLocationTime: 60000,
+    continusGPSChckerTime: 3000,
   }
 
   nextQuestion = () => {
@@ -67,10 +76,54 @@ class App extends Component {
     });
   }
 
+  GPSTimerOut = () => {
+    clearTimeout(Timer.gameTimer);
+    this.setState({ locationOk: LocationStatus.locationTimerOut });
+    this.restartQuestions();
+  }
+
+  continiusGPSCheck = () => {
+    const {
+      continusGPSChckerTime,
+    } = this.state;
+    continusGPSChckerTimer = setTimeout(
+      this.continiusGPSCheck,
+      continusGPSChckerTime,
+    );
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => this.GPSTimerResetCheck(checkStations(
+          parseFloat(position.coords.latitude),
+          parseFloat(position.coords.longitude),
+        )),
+      );
+    }
+  }
+
+  GPSTimerResetCheck = (onStation) => {
+    if (onStation === LocationStatus.validLocation) {
+      this.GPSTimerReset();
+    }
+  }
+
+  GPSTimerReset = () => {
+    const {
+      GPSLocationTime,
+    } = this.state;
+    clearTimeout(GPSLocationTimer);
+    GPSLocationTimer = setTimeout(
+      this.GPSTimerOut, GPSLocationTime,
+    );
+  }
+
   render() {
     const {
+      GPSLocationTime,
+      continusGPSChckerTime,
       currentQuestion: { answers, question },
+      developerModeGPSCheck,
       gameOver,
+      locationOk,
       points,
       responded,
       timer,
@@ -80,6 +133,60 @@ class App extends Component {
       .map(([answer]) => answer);
 
     const { classes: { main } } = this.props;
+    if (locationOk !== LocationStatus.validLocation) {
+      clearTimeout(GPSLocationTimer);
+      if (!developerModeGPSCheck) {
+        return (
+          <MuiThemeProvider theme={theme}>
+            <CssBaseline />
+            <main className={main}>
+              <GPSCheck
+                developerModeGPSCheck={(developerMode) => {
+                  this.setState({ developerModeGPSCheck: { developerMode } });
+                }}
+                locationCheck={(onStation) => {
+                  this.setState({ locationOk: onStation });
+                  if (onStation === LocationStatus.validLocation) {
+                    GPSLocationTimer = setTimeout(
+                      this.GPSTimerOut,
+                      GPSLocationTime,
+                    );
+                    continusGPSChckerTimer = setTimeout(
+                      this.continiusGPSCheck,
+                      continusGPSChckerTime,
+                    );
+                  }
+                }}
+                locationOk={locationOk}
+              />
+            </main>
+          </MuiThemeProvider>
+        );
+      }
+      return (
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <main className={main}>
+            <DeveloperModeGPSCheck
+              locationCheck={(onStation) => {
+                this.setState({ locationOk: onStation });
+                if (onStation === LocationStatus.validLocation) {
+                  GPSLocationTimer = setTimeout(
+                    this.GPSTimerOut,
+                    GPSLocationTime,
+                  );
+                  continusGPSChckerTimer = setTimeout(
+                    this.continiusGPSCheck,
+                    continusGPSChckerTime,
+                  );
+                }
+              }}
+              locationOk={locationOk}
+            />
+          </main>
+        </MuiThemeProvider>
+      );
+    }
     if (!responded) {
       return (
         <MuiThemeProvider theme={theme}>

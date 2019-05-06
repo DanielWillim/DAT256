@@ -7,6 +7,8 @@ import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
+export let gameTimer = setTimeout(0);
+
 const styles = () => ({
   card: { minWidth: 275 },
   lowered: { marginTop: 12 },
@@ -34,7 +36,7 @@ function Question({
     }
   };
 
-  const gameTimer = setTimeout(
+  gameTimer = setTimeout(
     stopTimer, (timer) - 1000 * Math.floor(timerFloor),
   );
 
