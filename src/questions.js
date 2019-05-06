@@ -2,48 +2,12 @@ import { shuffle } from 'lodash/fp';
 
 export const questions = [
   {
-    question: 'Vad är kurskoden för denna kurs?',
-    answers: [
-      ['DAT256', true],
-      ['DAT356', false],
-      ['TAD007', false],
-      ['TAD256', false],
-    ],
-  },
-  {
     question: 'Stanner denna buss vid teknikgatan?',
     answers: [
       ['Ja, i varje tur', true],
       ['Ja, enbart på helger', false],
       ['Ja, enbart på vardagar', false],
-      ['Ja, enbart tentaveckor, omtenatveckor och under mottagningen', false],
-    ],
-  },
-  {
-    question: 'Vilken hållplats är närmast Gasquen?',
-    answers: [
-      ['Chalmersplatsen', true],
-      ['Chalmers', false],
-      ['Sven hultins gata', false],
-      ['Chalmers tvärgata', false],
-    ],
-  },
-  {
-    question: 'Vilken hållplats är närmast Basen?',
-    answers: [
-      ['Chalmersplatsen', false],
-      ['Chalmers', false],
-      ['Sven hultins gata', false],
-      ['Chalmers tvärgata', true],
-    ],
-  },
-  {
-    question: 'Vilken hållplats är närmast gruppren EG-2516?',
-    answers: [
-      ['Chalmersplatsen', false],
-      ['Chalmers', false],
-      ['Sven hultins gata', false],
-      ['Chalmers tvärgata', true],
+      ['Ja, enbart tentaveckor, omtentaveckor och under mottagningen', false],
     ],
   },
   {
@@ -55,34 +19,6 @@ export const questions = [
       ['10', false],
     ],
   },
-  {
-    question: 'Vilken hållplats är närmast Kårhuset?',
-    answers: [
-      ['Chalmersplatsen', true],
-      ['Chalmers', false],
-      ['Sven hultins gata', false],
-      ['Chalmers tvärgata', false],
-    ],
-  },
-  {
-    question: 'Vilken hållplats är närmast Olgas trappor?',
-    answers: [
-      ['Chalmersplatsen', true],
-      ['Chalmers', false],
-      ['Sven hultins gata', false],
-      ['Chalmers tvärgata', false],
-    ],
-  },
-  {
-    question: 'Vilken hållplats är närmast Coop Landala?',
-    answers: [
-      ['Kapellplatsen', true],
-      ['Vasaplatsen', false],
-      ['Kortedala Torg', false],
-      ['Chalmers tvärgata', false],
-    ],
-  },
-
   {
     question: 'Vilken av följande är INTE en stadsdel i Göteborg?',
     answers: [
@@ -135,24 +71,6 @@ export const questions = [
       ['Götaplatsavenyn', false],
       ['Kungsportsgatan', false],
       ['Götaplatsgatan', false],
-    ],
-  },
-  {
-    question: 'Vad är kurskoden för denna kurs?',
-    answers: [
-      ['DAT256', true],
-      ['DAT356', false],
-      ['TAD007', false],
-      ['TAD256', false],
-    ],
-  },
-  {
-    question: 'Hur många frågor ska vi ha totalt?',
-    answers: [
-      ['50', true],
-      ['10', false],
-      ['30', false],
-      ['100', false],
     ],
   },
   {
