@@ -81,6 +81,22 @@ class App extends Component {
       .map(([answer]) => answer);
 
     const { classes: { main } } = this.props;
+    if (!locationOk) {
+      return (
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <main className={main}>
+            <TicketPage
+            />
+            <GPSCheck
+              locationCheck={(onStation) => {
+                this.setState({ locationOk: onStation });
+              }}
+            />
+          </main>
+        </MuiThemeProvider>
+      );
+    }
     if (!responded) {
       return (
         <MuiThemeProvider theme={theme}>
