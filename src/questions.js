@@ -2,15 +2,6 @@ import { shuffle } from 'lodash/fp';
 
 export const questions = [
   {
-    question: 'Stanner denna buss vid teknikgatan?',
-    answers: [
-      ['Ja, i varje tur', true],
-      ['Ja, enbart på helger', false],
-      ['Ja, enbart på vardagar', false],
-      ['Ja, enbart tentaveckor, omtentaveckor och under mottagningen', false],
-    ],
-  },
-  {
     question: 'Hur många spårvagnslinjer går det i Göteborg?',
     answers: [
       ['12', true],
@@ -82,6 +73,116 @@ export const questions = [
       ['Kårordförande för Chalmers Studentkår', false],
     ],
   },
+  {
+    question: 'Hur många lägen finns det på hållplatsen på Brunnsparken?',
+    answers: [
+      ['13', true],
+      ['10', false],
+      ['8', false],
+      ['6', false],
+    ],
+  },
+
+  {
+    question: 'Vad heter bron i Göteborg som ska bytas ut mot en ny bro?',
+    answers: [
+      ['Götaälvsbron', true],
+      ['Älvsborgsbron', false],
+      ['Tingstadstunneln', false],
+      ['Hisingsbron', false],
+    ],
+  },
+  {
+    question: 'Vad heter den central parken nära Centralstationen?',
+    answers: [
+      ['Trädgårdsföreningen i Göteborg', true],
+      ['Göteborgs botaniska trädgård', false],
+      ['Centralparken', false],
+      ['Ängsgårdsbergen', false],
+    ],
+  },
+  {
+    question: 'Vad kallas ryttarstatyn som finns vid kungsportsplatsen? RÄTT',
+    answers: [
+      ['Kopparmärra', true],
+      ['Bronsryttaren', false],
+      ['Gustaf Adolf', false],
+      ['Kopparryttaren', false],
+    ],
+  },
+  {
+    question: 'Vilket år eldhärjades Centralstationen?',
+    answers: [
+      ['1923', true],
+      ['1914', false],
+      ['1891', false],
+      ['1876', false],
+    ],
+  },
+  {
+    question: 'Vad hette gatan amerikaemigranterna utgick från under 1800- och 1900-talet?',
+    answers: [
+      ['Sillgatan', true],
+      ['Postgatan', false],
+      ['Kronhusgatan', false],
+      ['Nordstjärnegatan', false],
+    ],
+  },
+  {
+    question: 'Vad heter torget som ligger vid Brunnsparken?',
+    answers: [
+      ['Lilla torget', true],
+      ['Hamntorget', false],
+      ['Kortedala torg', false],
+      ['Brunnsbo torg', false],
+    ],
+  },
+  {
+    question: 'Vilka bussar kör mellan Chalmers två campus, Johanneberg och Lindholmen?',
+    answers: [
+      ['16 och 55', true],
+      ['16, 17 och 55', false],
+      ['17 och 55', false],
+      ['16 och 17', false],
+    ],
+  },
+  {
+    question: 'Var har det gått linbana i Göteborg?',
+    answers: [
+      ['Mellan Liseberg och Götaplatsen', true],
+      ['Mellan Backa och Kortedala', false],
+      ['Mellan Järntorget och Hisingen', false],
+      ['Mellan Svingeln och Brunnsbo', false],
+    ],
+  },
+  {
+    question: 'Vilken statsdel i Göteborg krävde flest ködagar på Boplats.se under Januari-Mars 2019?',
+    answers: [
+      ['Majorna-Linné', true],
+      ['Örgryte-Härlanda', false],
+      ['Lundby', false],
+      ['Centrum', false],
+    ],
+  },
+  {
+    question: 'När grundades Chalmers?',
+    answers: [
+      ['1829', true],
+      ['1954', false],
+      ['1823', false],
+      ['1947', false],
+    ],
+  },
+  {
+    question: 'När grundades Göteborgs universitet?',
+    answers: [
+      ['1954', true],
+      ['1679', false],
+      ['1823', false],
+      ['1574', false],
+    ],
+  },
+
 ];
 
 export const randomQuestion = () => {
