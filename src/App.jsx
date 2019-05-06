@@ -7,13 +7,11 @@ import {
   MuiThemeProvider,
   withStyles,
 } from '@material-ui/core/styles';
-import { shuffle } from 'lodash/fp';
 
-import Fail from 'Fail';
+import Answer from 'Answer';
 import GameOver from 'GameOver';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
-import Win from 'Win';
 
 
 const styles = theme => ({
@@ -47,6 +45,7 @@ class App extends Component {
     setStartTimer: 10000,
     timer: 10000,
     gameOver: false,
+    answered: '-',
   }
 
   nextQuestion = () => {
@@ -59,7 +58,6 @@ class App extends Component {
 
   restartQuestions = () => {
     const { setStartTimer } = this.state;
-
     this.setState({
       gameOver: false,
       responded: false,
@@ -71,6 +69,7 @@ class App extends Component {
 
   render() {
     const {
+      answered,
       currentQuestion: { answers, question },
       gameOver,
       points,
@@ -88,12 +87,16 @@ class App extends Component {
           <CssBaseline />
           <main className={main}>
             <Question
+              viewTimeLeft={(newTimer) => {
+                this.setState({ timer: newTimer });
+              }}
               category="Lokalområdet"
-              answers={shuffle(answers)}
+              answers={answers}
               timer={timer}
               onTimeOut={this.timerRunOut}
-              onAnswer={(won, newTimer) => {
+              onAnswer={(won, newTimer, text) => {
                 this.setState({ responded: { won } });
+                this.setState({ answered: text });
                 if (won) {
                   this.setState({ points: points + 1, timer: newTimer + 3000 });
                 } else if (points > 0) {
@@ -101,7 +104,8 @@ class App extends Component {
                 } else {
                   this.setState({ timer: newTimer });
                 }
-              }}
+              }
+            }
               question={question}
             />
           </main>
@@ -111,12 +115,22 @@ class App extends Component {
 
     if (responded.won) {
       return (
-        <Win
-          onNext={this.nextQuestion}
-          answer={correctAnswers}
-          points={points}
-          timer={timer}
-        />
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <main className={main}>
+            <Answer
+              mening="Grattis du svarade rätt!"
+              onNext={this.nextQuestion}
+              answers={answers}
+              answer={correctAnswers}
+              category="Lokalområde"
+              question={question}
+              points={points}
+              timer={timer}
+              answered={answered}
+            />
+          </main>
+        </MuiThemeProvider>
       );
     }
 
@@ -131,12 +145,22 @@ class App extends Component {
     }
 
     return (
-      <Fail
-        onNext={this.nextQuestion}
-        answer={correctAnswers}
-        points={points}
-        timer={timer}
-      />
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        <main className={main}>
+          <Answer
+            mening="Fail! Du svarade fel!"
+            onNext={this.nextQuestion}
+            answers={answers}
+            answer={correctAnswers}
+            category="Lokalområde"
+            question={question}
+            points={points}
+            timer={timer}
+            answered={answered}
+          />
+        </main>
+      </MuiThemeProvider>
     );
   }
 }
