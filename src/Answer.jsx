@@ -12,32 +12,29 @@ const styles = () => ({
   lowered: { marginTop: 12 },
 });
 
-function Question({
+function getBackgroundColor(isCorrect, text, answered) {
+  if (isCorrect) {
+    return '#42f442';
+  }
+
+  if (!isCorrect && text === answered) {
+    return 'red';
+  }
+
+  return 'white';
+}
+
+function Answer({
+  answered,
   answers,
   category,
   classes: { card, lowered },
-  onAnswer,
-  onTimeOut,
+  mening,
+  onNext,
+  points,
   question,
   timer,
-  viewTimeLeft,
 }) {
-  const timeWhenStarted = (new Date()).getTime();
-  const timerFloor = timer / 1000;
-
-  const stopTimer = () => {
-    if (timer > 1000) {
-      const timeLeft = timer - ((new Date()).getTime() - timeWhenStarted);
-      viewTimeLeft(timeLeft);
-    } else {
-      onTimeOut();
-    }
-  };
-
-  const gameTimer = setTimeout(
-    stopTimer, (timer) - 1000 * Math.floor(timerFloor),
-  );
-
   return (
     <Card className={card}>
       <CardContent>
@@ -53,26 +50,37 @@ function Question({
         <CardActionArea
           key={text}
           onClick={() => {
-            const timeLeft = timer - ((new Date()).getTime() - timeWhenStarted);
-            clearTimeout(gameTimer);
-            onAnswer(isCorrect, timeLeft, text);
+            // console.log(isCorrect);
           }}
         >
-          <CardContent>
+          <CardContent style={
+            { backgroundColor: getBackgroundColor(isCorrect, text, answered) }}
+          >
             <Typography variant="body1">
               {text}
             </Typography>
           </CardContent>
         </CardActionArea>
       ))}
-      <Divider />
-      <CardContent>
-        <Typography variant="body1">
-          {`Tid kvar: ${Math.ceil(timer / 1000)}`}
-        </Typography>
-      </CardContent>
+      <br />
+      <Typography variant="h6">
+        {mening}
+        <br />
+        Du har&nbsp;
+        {points}
+        &nbsp;poäng!
+      </Typography>
+      <br />
+      <button type="button" onClick={onNext}>Fler frågor!</button>
+      <br />
+      <br />
+      <Typography variant="body1">
+        Du har&nbsp;
+        {timer / 1000}
+        &nbsp;sekunder kvar!
+      </Typography>
     </Card>
   );
 }
 
-export default withStyles(styles)(Question);
+export default withStyles(styles)(Answer);
