@@ -7,11 +7,18 @@ import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import CardActions from '@material-ui/core/CardActions';
+import Button from '@material-ui/core/Button';
 
 const styles = () => ({
   card: { minWidth: 275 },
   lowered: { marginTop: 12 },
 });
+
+function ticketCheck(ticketID) {
+  console.log('hej');
+  return true;
+}
 
 function TicketPage({
   classes: { card, lowered },
@@ -27,19 +34,22 @@ function TicketPage({
       <CardContent>
         <TextField
           id="idTicket"
-          label="ticketNr"
-          defaultValue="12.3456(+-)5"
+          label="Biljettnummer"
           margin="normal"
         />
       </CardContent>
-      <Divider />
-      <CardActionArea
-        onClick={() => {
-          const ticketNr = parseFloat(document.getElementById('idTicket').value);
-          ticketCheck(ticketNr);
-        }}
-      >
-      </CardActionArea>
+      <CardActions>
+        <Button
+          size="small"
+          color="primary"
+          onClick={() => {
+            const ticketNr = parseFloat(document.getElementById('idTicket').value);
+            ticketCheck(ticketNr);
+          }}
+        >
+          Login
+        </Button>
+      </CardActions>
     </Card>
   );
 }
