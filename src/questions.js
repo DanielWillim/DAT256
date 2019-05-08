@@ -1,4 +1,4 @@
-import { shuffle } from 'lodash/fp';
+import { shuffle, range, cloneDeep } from 'lodash';
 
 export const questions = [
   {
@@ -166,8 +166,19 @@ export const questions = [
   },
 ];
 
+let orderOfQuestions = [];
+
+const reshuffleQuestion = () => {
+  orderOfQuestions = shuffle(range(questions.length));
+};
+
 export const randomQuestion = () => {
-  const temp = questions[(Math.floor(Math.random() * questions.length))];
+  if (orderOfQuestions.length === 0) {
+    reshuffleQuestion();
+  }
+
+  const temp = cloneDeep(questions[orderOfQuestions.pop()]);
+
   return {
     question: temp.question,
     answers: shuffle(temp.answers),
