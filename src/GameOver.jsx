@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
@@ -73,7 +74,7 @@ function GameOver({
           &nbsp;
         </Typography>
         <br />
-        <button type="button" onClick={onNext}>Starta om</button>
+        <Button variant="contained" onClick={onNext}>Starta om</Button>
         <br />
         <br />
         <Typography variant="body1">
