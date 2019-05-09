@@ -1,27 +1,26 @@
 import React from 'react';
 
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import CardActions from '@material-ui/core/CardActions';
-import Button from '@material-ui/core/Button';
+
+import verifyTicket from './TicketDatabase';
 
 const styles = () => ({
   card: { minWidth: 275 },
   lowered: { marginTop: 12 },
 });
 
-function ticketCheck(ticketID) {
-  console.log('hej');
-  return true;
-}
-
 function TicketPage({
   classes: { card, lowered },
+  errorOccured,
+  onCorrect,
+  onFail,
 }) {
   return (
     <Card className={card}>
@@ -33,9 +32,22 @@ function TicketPage({
       <Divider />
       <CardContent>
         <TextField
+          error={errorOccured}
           id="idTicket"
           label="Biljettnummer"
           margin="normal"
+          helperText={errorOccured ? 'Ogiltigt biljettnummer' : ''}
+          onKeyPress={(event) => {
+            if (event.key === 'Enter') {
+              const ticketNr = parseFloat(document.getElementById('idTicket').value).toString();
+
+              if (verifyTicket(ticketNr)) {
+                onCorrect();
+              } else {
+                onFail();
+              }
+            }
+          }}
         />
       </CardContent>
       <CardActions>
@@ -43,8 +55,13 @@ function TicketPage({
           size="small"
           color="primary"
           onClick={() => {
-            const ticketNr = parseFloat(document.getElementById('idTicket').value);
-            ticketCheck(ticketNr);
+            const ticketNr = parseFloat(document.getElementById('idTicket').value).toString();
+
+            if (verifyTicket(ticketNr)) {
+              onCorrect();
+            } else {
+              onFail();
+            }
           }}
         >
           Login
