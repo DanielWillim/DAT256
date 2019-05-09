@@ -102,7 +102,7 @@ export const questions = [
     ],
   },
   {
-    question: 'Vad kallas ryttarstatyn som finns vid kungsportsplatsen? RÄTT',
+    question: 'Vad kallas ryttarstatyn som finns vid kungsportsplatsen?',
     answers: [
       ['Kopparmärra', true],
       ['Bronsryttaren', false],
