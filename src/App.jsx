@@ -42,6 +42,28 @@ const theme = createMuiTheme({
     },
   },
 });
+const theme1 = createMuiTheme({
+  palette: {
+    background: {
+      default: '#8bc34a',
+    },
+  },
+});
+const theme2 = createMuiTheme({
+  palette: {
+    background: {
+      default: '#F44336',
+    },
+  },
+});
+
+const theme3 = createMuiTheme({
+  palette: {
+    background: {
+      default: '#212121',
+    },
+  },
+});
 
 class App extends Component {
   state = {
@@ -144,11 +166,11 @@ class App extends Component {
 
     if (responded.won) {
       return (
-        <MuiThemeProvider theme={theme}>
+        <MuiThemeProvider theme={theme1}>
           <CssBaseline />
           <main className={main}>
             <Answer
-              mening="Grattis du svarade rätt!"
+              mening="RÄTT!"
               onNext={this.nextQuestion}
               answers={answers}
               answer={correctAnswers}
@@ -165,20 +187,30 @@ class App extends Component {
 
     if (gameOver) {
       return (
-        <GameOver
-          onNext={this.restartQuestions}
-          answer={correctAnswers}
-          points={points}
-        />
+        <MuiThemeProvider theme={theme3}>
+          <CssBaseline />
+          <main className={main}>
+            <GameOver
+              mening="GAME OVER!"
+              onNext={this.restartQuestions}
+              answers={answers}
+              answer={correctAnswers}
+              category="Lokalområde"
+              question={question}
+              points={points}
+              answered={answered}
+            />
+          </main>
+        </MuiThemeProvider>
       );
     }
 
     return (
-      <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme2}>
         <CssBaseline />
         <main className={main}>
           <Answer
-            mening="Fail! Du svarade fel!"
+            mening="FEL!"
             onNext={this.nextQuestion}
             answers={answers}
             answer={correctAnswers}
