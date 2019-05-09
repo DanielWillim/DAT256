@@ -131,9 +131,9 @@ export const questions = [
   {
     question: 'Vad heter torget som ligger vid Brunnsparken?',
     answers: [
-      ['Lilla torget', true],
+      ['Lilla torget', false],
       ['Hamntorget', false],
-      ['Kortedala torg', false],
+      ['Gustav Adolfs Torg', true],
       ['Brunnsbo torg', false],
     ],
   },
