@@ -12,7 +12,13 @@ import Answer from 'Answer';
 import GameOver from 'GameOver';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
+import TicketPage from 'TicketPage';
 
+const ticketStatusConst = {
+  validTicket: 'Valid',
+  error: 'TicketError',
+  notResponded: 'NotResponded',
+};
 
 const styles = theme => ({
   main: {
@@ -46,6 +52,7 @@ class App extends Component {
     timer: 10000,
     gameOver: false,
     answered: '-',
+    ticketStatus: ticketStatusConst.notResponded,
   }
 
   nextQuestion = () => {
@@ -74,6 +81,7 @@ class App extends Component {
       gameOver,
       points,
       responded,
+      ticketStatus,
       timer,
     } = this.state;
     const correctAnswers = answers
@@ -81,6 +89,27 @@ class App extends Component {
       .map(([answer]) => answer);
 
     const { classes: { main } } = this.props;
+
+    if (ticketStatus === ticketStatusConst.notResponded
+     || ticketStatus === ticketStatusConst.error) {
+      return (
+        <MuiThemeProvider theme={theme}>
+          <CssBaseline />
+          <main className={main}>
+            <TicketPage
+              onFail={() => {
+                this.setState({ ticketStatus: ticketStatusConst.error });
+              }}
+              onCorrect={() => {
+                this.setState({ ticketStatus: ticketStatusConst.validTicket });
+              }}
+              errorOccured={ticketStatus === ticketStatusConst.error}
+            />
+          </main>
+        </MuiThemeProvider>
+      );
+    }
+
     if (!responded) {
       return (
         <MuiThemeProvider theme={theme}>
