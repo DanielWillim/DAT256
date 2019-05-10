@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -10,35 +10,58 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import verifyTicket from './TicketDatabase';
+import { AuthContext } from 'backend/auth';
+import { userName } from 'backend/user';
 
 const styles = () => ({
   card: { minWidth: 275 },
   lowered: { marginTop: 12 },
 });
 
-function TicketPage({
-  classes: { card, lowered },
-  errorOccured,
-  onCorrect,
-  onFail,
-}) {
-  return (
-    <Card className={card}>
-      <CardContent>
-        <Typography variant="h6" className={lowered}>
-          {'Vad har du för biljettnummer?'}
-        </Typography>
-      </CardContent>
-      <Divider />
-      <CardContent>
-        <TextField
-          error={errorOccured}
-          id="idTicket"
-          label="Biljettnummer"
-          margin="normal"
-          helperText={errorOccured ? 'Ogiltigt biljettnummer' : ''}
-          onKeyPress={(event) => {
-            if (event.key === 'Enter') {
+class TicketPage extends Component {
+  static contextType = AuthContext;
+
+  render() {
+    const {
+      classes: { card, lowered },
+      errorOccured,
+      onCorrect,
+      onFail,
+    } = this.props;
+    const name = userName(this.context);
+    return (
+      <Card className={card}>
+        <CardContent>
+          <Typography variant="h6" className={lowered}>
+            {`Vad har du för biljettnummer ${name}?`}
+          </Typography>
+        </CardContent>
+        <Divider />
+        <CardContent>
+          <TextField
+            error={errorOccured}
+            id="idTicket"
+            label="Biljettnummer"
+            margin="normal"
+            helperText={errorOccured ? 'Ogiltigt biljettnummer' : ''}
+            onKeyPress={(event) => {
+              if (event.key === 'Enter') {
+                const ticketNr = parseFloat(document.getElementById('idTicket').value).toString();
+
+                if (verifyTicket(ticketNr)) {
+                  onCorrect();
+                } else {
+                  onFail();
+                }
+              }
+            }}
+          />
+        </CardContent>
+        <CardActions>
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => {
               const ticketNr = parseFloat(document.getElementById('idTicket').value).toString();
 
               if (verifyTicket(ticketNr)) {
@@ -46,29 +69,14 @@ function TicketPage({
               } else {
                 onFail();
               }
-            }
-          }}
-        />
-      </CardContent>
-      <CardActions>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => {
-            const ticketNr = parseFloat(document.getElementById('idTicket').value).toString();
-
-            if (verifyTicket(ticketNr)) {
-              onCorrect();
-            } else {
-              onFail();
-            }
-          }}
-        >
-          Login
-        </Button>
-      </CardActions>
-    </Card>
-  );
+            }}
+          >
+            Login
+          </Button>
+        </CardActions>
+      </Card>
+    );
+  }
 }
 
 export default withStyles(styles)(TicketPage);
