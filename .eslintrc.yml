@@ -34,10 +34,10 @@ rules:
     - groups:
         - builtin
         - external
-        - index
-        - internal
-        - parent
-        - sibling
+        - - index
+          - internal
+          - parent
+          - sibling
       newlines-between: always
   max-len:
     - error
