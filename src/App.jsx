@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core/styles';
 
 import Answer from 'Answer';
+import Auth from 'backend/auth';
 import GameOver from 'GameOver';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
@@ -88,78 +89,60 @@ class App extends Component {
       .filter(([, isCorrect]) => isCorrect)
       .map(([answer]) => answer);
 
-    const { classes: { main } } = this.props;
-
     if (ticketStatus === ticketStatusConst.notResponded
      || ticketStatus === ticketStatusConst.error) {
       return (
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <main className={main}>
-            <TicketPage
-              onFail={() => {
-                this.setState({ ticketStatus: ticketStatusConst.error });
-              }}
-              onCorrect={() => {
-                this.setState({ ticketStatus: ticketStatusConst.validTicket });
-              }}
-              errorOccured={ticketStatus === ticketStatusConst.error}
-            />
-          </main>
-        </MuiThemeProvider>
+        <TicketPage
+          onFail={() => {
+            this.setState({ ticketStatus: ticketStatusConst.error });
+          }}
+          onCorrect={() => {
+            this.setState({ ticketStatus: ticketStatusConst.validTicket });
+          }}
+          errorOccured={ticketStatus === ticketStatusConst.error}
+        />
       );
     }
 
     if (!responded) {
       return (
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <main className={main}>
-            <Question
-              viewTimeLeft={(newTimer) => {
-                this.setState({ timer: newTimer });
-              }}
-              category="Lokalområdet"
-              answers={answers}
-              timer={timer}
-              onTimeOut={this.timerRunOut}
-              onAnswer={(won, newTimer, text) => {
-                this.setState({ responded: { won } });
-                this.setState({ answered: text });
-                if (won) {
-                  this.setState({ points: points + 1, timer: newTimer + 3000 });
-                } else if (points > 0) {
-                  this.setState({ points: points - 1, timer: newTimer });
-                } else {
-                  this.setState({ timer: newTimer });
-                }
-              }
+        <Question
+          viewTimeLeft={(newTimer) => {
+            this.setState({ timer: newTimer });
+          }}
+          category="Lokalområdet"
+          answers={answers}
+          timer={timer}
+          onTimeOut={this.timerRunOut}
+          onAnswer={(won, newTimer, text) => {
+            this.setState({ responded: { won } });
+            this.setState({ answered: text });
+            if (won) {
+              this.setState({ points: points + 1, timer: newTimer + 3000 });
+            } else if (points > 0) {
+              this.setState({ points: points - 1, timer: newTimer });
+            } else {
+              this.setState({ timer: newTimer });
             }
-              question={question}
-            />
-          </main>
-        </MuiThemeProvider>
+          }}
+          question={question}
+        />
       );
     }
 
     if (responded.won) {
       return (
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <main className={main}>
-            <Answer
-              mening="Grattis du svarade rätt!"
-              onNext={this.nextQuestion}
-              answers={answers}
-              answer={correctAnswers}
-              category="Lokalområde"
-              question={question}
-              points={points}
-              timer={timer}
-              answered={answered}
-            />
-          </main>
-        </MuiThemeProvider>
+        <Answer
+          mening="Grattis du svarade rätt!"
+          onNext={this.nextQuestion}
+          answers={answers}
+          answer={correctAnswers}
+          category="Lokalområde"
+          question={question}
+          points={points}
+          timer={timer}
+          answered={answered}
+        />
       );
     }
 
@@ -174,24 +157,29 @@ class App extends Component {
     }
 
     return (
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        <main className={main}>
-          <Answer
-            mening="Fail! Du svarade fel!"
-            onNext={this.nextQuestion}
-            answers={answers}
-            answer={correctAnswers}
-            category="Lokalområde"
-            question={question}
-            points={points}
-            timer={timer}
-            answered={answered}
-          />
-        </main>
-      </MuiThemeProvider>
+      <Answer
+        mening="Fail! Du svarade fel!"
+        onNext={this.nextQuestion}
+        answers={answers}
+        answer={correctAnswers}
+        category="Lokalområde"
+        question={question}
+        points={points}
+        timer={timer}
+        answered={answered}
+      />
     );
   }
 }
 
-export default withStyles(styles)(App);
+// Wrap App in style and authentication
+export default withStyles(styles)(({ classes: { main } }) => (
+  <MuiThemeProvider theme={theme}>
+    <CssBaseline />
+    <main className={main}>
+      <Auth>
+        <App />
+      </Auth>
+    </main>
+  </MuiThemeProvider>
+));
