@@ -16,6 +16,16 @@ const styles = () => ({
   lowered: { marginTop: 12 },
 });
 
+function clicked(onCorrect, onFail) {
+  const ticketNr = parseFloat(document.getElementById('idTicket').value).toString();
+
+  if (verifyTicket(ticketNr)) {
+    onCorrect();
+  } else {
+    onFail();
+  }
+}
+
 function TicketPage({
   classes: { card, lowered },
   errorOccured,
@@ -39,13 +49,7 @@ function TicketPage({
           helperText={errorOccured ? 'Ogiltigt biljettnummer' : ''}
           onKeyPress={(event) => {
             if (event.key === 'Enter') {
-              const ticketNr = parseFloat(document.getElementById('idTicket').value).toString();
-
-              if (verifyTicket(ticketNr)) {
-                onCorrect();
-              } else {
-                onFail();
-              }
+              clicked(onCorrect, onFail);
             }
           }}
         />
@@ -54,15 +58,7 @@ function TicketPage({
         <Button
           size="small"
           color="primary"
-          onClick={() => {
-            const ticketNr = parseFloat(document.getElementById('idTicket').value).toString();
-
-            if (verifyTicket(ticketNr)) {
-              onCorrect();
-            } else {
-              onFail();
-            }
-          }}
+          onClick={() => clicked(onCorrect, onFail)}
         >
           Login
         </Button>
