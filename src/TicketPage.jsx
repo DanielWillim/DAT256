@@ -13,6 +13,17 @@ import verifyTicket from './TicketDatabase';
 import { AuthContext } from 'backend/auth';
 import { userName } from 'backend/user';
 
+function clicked(onCorrect, onFail) {
+  console.log('I was clicked');
+  const ticketNr = parseFloat(document.getElementById('idTicket').value).toString();
+
+  if (verifyTicket(ticketNr)) {
+    onCorrect();
+  } else {
+    onFail();
+  }
+}
+
 const styles = () => ({
   card: { minWidth: 275 },
   lowered: { marginTop: 12 },
@@ -46,13 +57,7 @@ class TicketPage extends Component {
             helperText={errorOccured ? 'Ogiltigt biljettnummer' : ''}
             onKeyPress={(event) => {
               if (event.key === 'Enter') {
-                const ticketNr = parseFloat(document.getElementById('idTicket').value).toString();
-
-                if (verifyTicket(ticketNr)) {
-                  onCorrect();
-                } else {
-                  onFail();
-                }
+                clicked(onCorrect, onFail);
               }
             }}
           />
@@ -61,15 +66,7 @@ class TicketPage extends Component {
           <Button
             size="small"
             color="primary"
-            onClick={() => {
-              const ticketNr = parseFloat(document.getElementById('idTicket').value).toString();
-
-              if (verifyTicket(ticketNr)) {
-                onCorrect();
-              } else {
-                onFail();
-              }
-            }}
+            onClick={() => clicked(onCorrect, onFail)}
           >
             Login
           </Button>
