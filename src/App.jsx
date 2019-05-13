@@ -9,7 +9,6 @@ import {
 } from '@material-ui/core/styles';
 
 import Answer from 'Answer';
-import GameOver from 'GameOver';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
 import TicketPage from 'TicketPage';
@@ -45,7 +44,7 @@ const theme = createMuiTheme({
 const theme1 = createMuiTheme({
   palette: {
     background: {
-      default: '#8bc34a',
+      default: '#137714',
     },
   },
 });
@@ -143,6 +142,7 @@ class App extends Component {
               }}
               category="Lokalområdet"
               answers={answers}
+              points={points}
               timer={timer}
               onTimeOut={this.timerRunOut}
               onAnswer={(won, newTimer, text) => {
@@ -170,7 +170,6 @@ class App extends Component {
           <CssBaseline />
           <main className={main}>
             <Answer
-              mening="RÄTT!"
               onNext={this.nextQuestion}
               answers={answers}
               answer={correctAnswers}
@@ -190,8 +189,7 @@ class App extends Component {
         <MuiThemeProvider theme={theme3}>
           <CssBaseline />
           <main className={main}>
-            <GameOver
-              mening="GAME OVER!"
+            <Answer
               onNext={this.restartQuestions}
               answers={answers}
               answer={correctAnswers}
@@ -210,7 +208,6 @@ class App extends Component {
         <CssBaseline />
         <main className={main}>
           <Answer
-            mening="FEL!"
             onNext={this.nextQuestion}
             answers={answers}
             answer={correctAnswers}

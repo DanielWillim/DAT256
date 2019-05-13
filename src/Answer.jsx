@@ -5,6 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
@@ -31,7 +32,6 @@ function Answer({
   answers,
   category,
   classes: { card, lowered },
-  mening,
   onNext,
   points,
   question,
@@ -52,9 +52,6 @@ function Answer({
         { answers.map(([text, isCorrect]) => (
           <CardActionArea
             key={text}
-            onClick={() => {
-              // console.log(isCorrect);
-            }}
           >
             <CardContent style={
               { backgroundColor: getBackgroundColor(isCorrect, text, answered) }
@@ -66,23 +63,22 @@ function Answer({
             </CardContent>
           </CardActionArea>
         ))}
-        <br />
-        <Typography variant="h6">
-          {mening}
-          <br />
-          Poäng:&nbsp;
-          {points}
-          &nbsp;
-        </Typography>
-        <br />
-        <Button variant="contained" onClick={onNext}>Nästa fråga</Button>
-        <br />
-        <br />
-        <Typography variant="body1">
-          Tid kvar: &nbsp;
-          {timer / 1000}
-          &nbsp;sekunder
-        </Typography>
+        <Divider />
+        <CardContent>
+          <Grid container spacing={24}>
+            <Grid item xs={6}>
+              <Typography variant="body1" align="left">
+                {`Tid kvar: ${Math.ceil((timer === undefined ? 0 : timer) / 1000)}`}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1" align="right">
+                {`Poäng: ${points}`}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Button variant="contained" align="center" onClick={onNext}>Nästa fråga</Button>
+        </CardContent>
       </center>
     </Card>
   );
