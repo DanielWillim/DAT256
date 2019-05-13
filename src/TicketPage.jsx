@@ -14,7 +14,6 @@ import { AuthContext } from 'backend/auth';
 import { userName } from 'backend/user';
 
 function clicked(onCorrect, onFail) {
-  console.log('I was clicked');
   const ticketNr = parseFloat(document.getElementById('idTicket').value).toString();
 
   if (verifyTicket(ticketNr)) {

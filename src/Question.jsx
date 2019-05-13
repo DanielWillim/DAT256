@@ -44,6 +44,7 @@ function Question({
 
     return () => clearTimeout(gameTimer);
   });
+
   return (
     <center>
       <Card className={card}>
