@@ -11,6 +11,7 @@ import {
 import Answer from 'Answer';
 import Auth from 'backend/auth';
 import GameOver from 'GameOver';
+import IconLabelTabs from 'Menue';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
 import TicketPage from 'TicketPage';
@@ -178,7 +179,7 @@ export default withStyles(styles)(({ classes: { main } }) => (
     <CssBaseline />
     <main className={main}>
       <Auth>
-        <App />
+        <IconLabelTabs App={App} />
       </Auth>
     </main>
   </MuiThemeProvider>
