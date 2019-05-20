@@ -11,9 +11,24 @@ import {
 import Answer from 'Answer';
 import Auth from 'backend/auth';
 import GameOver from 'GameOver';
+import Leaderboard from 'Leaderboard';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
 import TicketPage from 'TicketPage';
+
+const leaders = [
+  ['1', 'Anna', '10000'],
+  ['2', 'Erik', '1000'],
+  ['3', 'Elin', '9'],
+  ['4', 'Malin', '8'],
+  ['5', 'Fanny', '7'],
+  ['6', 'Daniel', '6'],
+  ['7', 'Samuel', '5'],
+  ['8', 'Främling bättre än Martin', '4'],
+  ['9', 'Främling nr 2 bättre än Martin', '3'],
+  ['10', 'Martin', '-100000'],
+];
+
 
 const ticketStatusConst = {
   validTicket: 'Valid',
@@ -88,6 +103,13 @@ class App extends Component {
     const correctAnswers = answers
       .filter(([, isCorrect]) => isCorrect)
       .map(([answer]) => answer);
+
+    //kommentera in detta för att testa Leaderboard
+    /**return (
+      <Leaderboard
+        leaders={leaders}
+      />
+    );**/
 
     if (ticketStatus === ticketStatusConst.notResponded
      || ticketStatus === ticketStatusConst.error) {
