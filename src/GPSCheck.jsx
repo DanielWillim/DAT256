@@ -53,7 +53,7 @@ function GPSCheck({
       <Divider />
       <CardActionArea
         onClick={() => {
-          if (false) {
+          if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => locationCheck(
               checkStations(
                 parseFloat(position.coords.latitude),
