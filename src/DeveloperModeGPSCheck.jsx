@@ -8,13 +8,9 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import { checkStations } from 'stations';
+import GPSCheck, * as LocationStatus from 'GPSCheck'; 
 
-export const noLocation = 'noLocation';
-export const invalidLocation = 'invalidLocation';
-export const validLocation = 'validLocation';
-export const locationNotAvailable = 'locationNotAvailable';
-export const locationTimerOut = 'locationTimerOut';
+import { checkStations } from 'stations';
 
 const styles = () => ({
   card: { minWidth: 275 },
@@ -22,13 +18,13 @@ const styles = () => ({
 });
 
 function getCorrectLocationQuestion(whichQuestion) {
-  if (whichQuestion === noLocation) {
+  if (whichQuestion === LocationStatus.noLocation) {
     return 'Välkommen till världens bästa spel!';
   }
-  if (whichQuestion === locationNotAvailable) {
+  if (whichQuestion === LocationStatus.locationNotAvailable) {
     return 'Geolocation is not supported by this browser. För att kunna spela måste du ha checkat in i spelet vid en hållplats under de senaste 15 minutrarna.';
   }
-  if (whichQuestion === 'locationTimerOut') {
+  if (whichQuestion === LocationStatus.locationTimerOut) {
     return 'Du har varit bort från en hållplats förlänge! Gå till en för att forstätta spela!';
   }
   return 'Du kan tyvärr inte spela världens bästa spel. För att kunna spela måste du ha checkat in i spelet vid en hållplats under de senaste 15 minutrarna. Gå till en hållplats och försök igen!';
@@ -44,18 +40,18 @@ function DeveloperModeGPSCheck({
       <CardContent>
         <Typography variant="h6" className={lowered}>
           {getCorrectLocationQuestion(locationOk)}
+        </Typography> 
+      </CardContent>
+      <Divider />
+      <CardContent>
+        <Typography variant="body1" className={lowered}>
+          I DeveloperMode måste du ange vilka kordinater som du befinner dig på.
         </Typography>
       </CardContent>
       <Divider />
       <CardContent>
-        <Typography variant="h9" className={lowered}>
-          {'I DeveloperMode måste du ange vilka kordinater som du befinner dig på.'}
-        </Typography>
-      </CardContent>
-      <Divider />
-      <CardContent>
-        <Typography variant="h10" className={lowered}>
-          {'Tips: Testkordinater är latitude=1 och longitude=1'}
+        <Typography variant="body1" className={lowered}>
+          Tips: Testkordinater är latitude=1 och longitude=1
         </Typography>
       </CardContent>
       <Divider />
@@ -84,7 +80,7 @@ function DeveloperModeGPSCheck({
       >
         <CardContent>
           <Typography variant="body1">
-            {'Är jag på en hållplats?'}
+            Är jag på en hållplats?
           </Typography>
         </CardContent>
       </CardActionArea>

@@ -133,6 +133,7 @@ class App extends Component {
       .map(([answer]) => answer);
 
     const { classes: { main } } = this.props;
+    
     if (locationOk !== LocationStatus.validLocation) {
       clearTimeout(GPSLocationTimer);
       if (!developerModeGPSCheck) {

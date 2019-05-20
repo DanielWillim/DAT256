@@ -46,14 +46,14 @@ function GPSCheck({
         <Typography variant="h6" className={lowered}>
           {getCorrectLocationQuestion(locationOk)}
         </Typography>
-        <Typography variant="h9" className={lowered}>
-          {'Genom att starta spelet ger du tillåtesle till att vi kontrollerar vart du befinner dig.'}
+        <Typography variant="body1" className={lowered}>
+          Genom att starta spelet ger du tillåtesle till att vi kontrollerar vart du befinner dig.
         </Typography>
       </CardContent>
       <Divider />
       <CardActionArea
         onClick={() => {
-          if (navigator.geolocation) {
+          if (false) {
             navigator.geolocation.getCurrentPosition(position => locationCheck(
               checkStations(
                 parseFloat(position.coords.latitude),
@@ -67,7 +67,7 @@ function GPSCheck({
       >
         <CardContent>
           <Typography variant="body1">
-            {'Starta spelet'}
+            Starta spelet
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -80,7 +80,7 @@ function GPSCheck({
       >
         <CardContent>
           <Typography variant="body1">
-            {'Activate DeveloperMode'}
+            Activate DeveloperMode
           </Typography>
         </CardContent>
       </CardActionArea>
