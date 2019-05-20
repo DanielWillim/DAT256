@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function GameOver({ answer, onNext, points }) {
+export default function GameOver({ answer, onNext, points, onExit }) {
   return (
     <p>
       <h1>
@@ -14,6 +14,7 @@ export default function GameOver({ answer, onNext, points }) {
       </h1>
       <br />
       <button type="button" onClick={onNext}>Starta om!</button>
+      <button type="button" onClick={onExit}>Avsluta</button>
       <br />
       <br />
       <h1>

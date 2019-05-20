@@ -26,7 +26,7 @@ class TicketPage extends Component {
   componentDidMount() {
     const self = this;
     getPrivateUserData(uid(this.context))
-      .then((data => self.onTicketNumber(data.ticketNr)));
+      .then((data => self.onTicketNumber(data && data.ticketNr)));
   }
 
   onTicketNumber = (ticketNr) => {
@@ -35,10 +35,18 @@ class TicketPage extends Component {
     if (verifyTicket(ticketNr)) {
       onCorrect();
       updatePrivateUserData(uid(this.context), { ticketNr });
+      //setTimeout(()=>updatePrivateUserData(uid(this.context), { ticketNr:null }), 5000);
+      
     } else {
       onFail();
     }
   }
+  
+  removeTicketNumber = (ticketNr) => {
+      updatePrivateUserData(uid(this.context), { ticketNr:null })
+  }
+      
+  
 
 
   render() {

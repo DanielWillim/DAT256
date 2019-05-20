@@ -34,6 +34,7 @@ function Answer({
   points,
   question,
   timer,
+  onExit,
 }) {
   return (
     <Card className={card}>
@@ -72,6 +73,7 @@ function Answer({
       </Typography>
       <br />
       <button type="button" onClick={onNext}>Fler frågor!</button>
+      <button type="button" onClick={onExit}>Avsluta</button>
       <br />
       <br />
       <Typography variant="body1">

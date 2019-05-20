@@ -15,6 +15,12 @@ import Question from 'Question';
 import { randomQuestion } from 'questions';
 import TicketPage from 'TicketPage';
 
+//Dessa fyra rader nedan måste följas med om reove ticket tillämpas på annat ställe
+import verifyTicket from './TicketDatabase';
+import { AuthContext } from 'backend/auth';
+import { getPrivateUserData, updatePrivateUserData } from 'backend/db';
+import { userName, uid } from 'backend/user';
+
 const ticketStatusConst = {
   validTicket: 'Valid',
   error: 'TicketError',
@@ -58,6 +64,14 @@ class App extends Component {
 
   nextQuestion = () => {
     this.setState({ responded: false, currentQuestion: randomQuestion() });
+  }
+  static contextType = AuthContext;
+  exit = () => {
+      //Radera rad i tabell genom att ansätta null på rad.
+      updatePrivateUserData(uid(this.context), { ticketNr:null });
+      
+      //Uppdatera sidan för effekt
+      window.location.reload();
   }
 
   timerRunOut = () => {
@@ -135,6 +149,7 @@ class App extends Component {
         <Answer
           mening="Grattis du svarade rätt!"
           onNext={this.nextQuestion}
+          onExit={this.exit}
           answers={answers}
           answer={correctAnswers}
           category="Lokalområde"
@@ -150,6 +165,7 @@ class App extends Component {
       return (
         <GameOver
           onNext={this.restartQuestions}
+          onExit={this.exit}
           answer={correctAnswers}
           points={points}
         />
@@ -160,6 +176,7 @@ class App extends Component {
       <Answer
         mening="Fail! Du svarade fel!"
         onNext={this.nextQuestion}
+        onExit={this.exit}
         answers={answers}
         answer={correctAnswers}
         category="Lokalområde"

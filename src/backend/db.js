@@ -19,5 +19,14 @@ const updateUserDataGeneral = kind => async (uid, value) => {
   await updateUserData.update(value);
 };
 
+const removeUserDataGeneral = kind => async (uid) => {
+  const updateUserData = db.ref(`userdata/${uid}/${kind}`);
+
+  await updateUserData.update( { ticketNr:null } );
+};
+
 export const updatePublicUserData = updateUserDataGeneral('public');
 export const updatePrivateUserData = updateUserDataGeneral('private');
+
+export const removePublicUserData = removeUserDataGeneral('public');
+export const removePrivateUserData = removeUserDataGeneral('private');
