@@ -35,19 +35,14 @@ class TicketPage extends Component {
     if (verifyTicket(ticketNr)) {
       onCorrect();
       updatePrivateUserData(uid(this.context), { ticketNr });
-      //setTimeout(()=>updatePrivateUserData(uid(this.context), { ticketNr:null }), 5000);
-      
     } else {
       onFail();
     }
   }
-  
-  removeTicketNumber = (ticketNr) => {
-      updatePrivateUserData(uid(this.context), { ticketNr:null })
-  }
-      
-  
 
+  removeTicketNumber = () => {
+    updatePrivateUserData(uid(this.context), { ticketNr: null });
+  }
 
   render() {
     const {
