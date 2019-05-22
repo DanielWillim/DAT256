@@ -11,17 +11,9 @@ import Typography from '@material-ui/core/Typography';
 
 import verifyTicket from './TicketDatabase';
 import { AuthContext } from 'backend/auth';
-import { userName } from 'backend/user';
+import { getPrivateUserData, updatePrivateUserData } from 'backend/db';
+import { userName, uid } from 'backend/user';
 
-function clicked(onCorrect, onFail) {
-  const ticketNr = parseFloat(document.getElementById('idTicket').value).toString();
-
-  if (verifyTicket(ticketNr)) {
-    onCorrect();
-  } else {
-    onFail();
-  }
-}
 
 const styles = () => ({
   card: { minWidth: 275 },
@@ -31,14 +23,31 @@ const styles = () => ({
 class TicketPage extends Component {
   static contextType = AuthContext;
 
+  componentDidMount() {
+    const self = this;
+    getPrivateUserData(uid(this.context))
+      .then((data => self.onTicketNumber(data.ticketNr)));
+  }
+
+  onTicketNumber = (ticketNr) => {
+    const { onCorrect, onFail } = this.props;
+
+    if (verifyTicket(ticketNr)) {
+      onCorrect();
+      updatePrivateUserData(uid(this.context), { ticketNr });
+    } else {
+      onFail();
+    }
+  }
+
+
   render() {
     const {
       classes: { card, lowered },
       errorOccured,
-      onCorrect,
-      onFail,
     } = this.props;
     const name = userName(this.context);
+
     return (
       <Card className={card}>
         <CardContent>
@@ -56,7 +65,7 @@ class TicketPage extends Component {
             helperText={errorOccured ? 'Ogiltigt biljettnummer' : ''}
             onKeyPress={(event) => {
               if (event.key === 'Enter') {
-                clicked(onCorrect, onFail);
+                this.onTicketNumber(parseFloat(document.getElementById('idTicket').value).toString());
               }
             }}
           />
@@ -65,7 +74,7 @@ class TicketPage extends Component {
           <Button
             size="small"
             color="primary"
-            onClick={() => clicked(onCorrect, onFail)}
+            onClick={() => this.onTicketNumber(parseFloat(document.getElementById('idTicket').value).toString())}
           >
             Login
           </Button>

@@ -16,8 +16,7 @@ assignees: ''
 * [ ] ...
 
 # Definition of done
-* [ ] Code compiles
-* [ ] Passes all tests
-* [ ] Reviewer runs code on own machine
-  * [ ] Reviewer 1
-  * [ ] Reviewer 2
+* Code compiles
+* Passes all tests
+* Reviewer runs code on own machine
+ 
