@@ -66,7 +66,6 @@ class App extends Component {
   }
 
   restartQuestions = () => {
-    const { defaultGameTimer } = this.state;
     this.setState({
       gameOver: false,
       responded: false,
