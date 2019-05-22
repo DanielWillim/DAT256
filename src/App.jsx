@@ -43,13 +43,15 @@ const theme = createMuiTheme({
   },
 });
 
+// Default value for GameTimer, in seconds
+const defaultGameTimer = 10;
+
 class App extends Component {
   state = {
     responded: false,
     currentQuestion: randomQuestion(),
     points: 0,
-    setStartTimer: 10000,
-    timer: 10000,
+    timer: defaultGameTimer,
     gameOver: false,
     answered: '-',
     ticketStatus: ticketStatusConst.notResponded,
@@ -64,11 +66,11 @@ class App extends Component {
   }
 
   restartQuestions = () => {
-    const { setStartTimer } = this.state;
+    const { defaultGameTimer } = this.state;
     this.setState({
       gameOver: false,
       responded: false,
-      timer: setStartTimer,
+      timer: defaultGameTimer,
       points: 0,
       currentQuestion: randomQuestion(),
     });
@@ -106,7 +108,7 @@ class App extends Component {
     if (!responded) {
       return (
         <Question
-          viewTimeLeft={(newTimer) => {
+          updateGameTimer={(newTimer) => {
             this.setState({ timer: newTimer });
           }}
           category="Lokalområdet"
@@ -114,15 +116,13 @@ class App extends Component {
           points={points}
           timer={timer}
           onTimeOut={this.timerRunOut}
-          onAnswer={(won, newTimer, text) => {
+          onAnswer={(won, text) => {
             this.setState({ responded: { won } });
             this.setState({ answered: text });
             if (won) {
-              this.setState({ points: points + 1, timer: newTimer + 3000 });
+              this.setState({ points: points + 1, timer: timer + 3 });
             } else if (points > 0) {
-              this.setState({ points: points - 1, timer: newTimer });
-            } else {
-              this.setState({ timer: newTimer });
+              this.setState({ points: points - 1 });
             }
           }}
           question={question}
@@ -159,6 +159,7 @@ class App extends Component {
       );
     }
 
+    // Fail
     return (
       <Answer
         onNext={this.nextQuestion}

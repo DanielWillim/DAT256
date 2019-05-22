@@ -68,7 +68,7 @@ function Answer({
           <Grid container spacing={24}>
             <Grid item xs={6}>
               <Typography variant="body1" align="left">
-                {`Tid kvar: ${Math.ceil((timer === undefined ? 0 : timer) / 1000)}`}
+                {`Tid kvar: ${timer === undefined ? 0 : timer}`}
               </Typography>
             </Grid>
             <Grid item xs={6}>
