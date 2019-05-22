@@ -10,7 +10,7 @@ import {
 
 import Answer from 'Answer';
 import Auth, { AuthContext } from 'backend/auth';
-// Dessa fyra rader nedan måste följas med om
+// Dessa två rader nedan måste följas med om
 // remove ticket tillämpas på annat ställe
 import { updatePrivateUserData } from 'backend/db';
 import { uid } from 'backend/user';
