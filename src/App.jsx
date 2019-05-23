@@ -49,6 +49,16 @@ const theme = createMuiTheme({
       default: purple[300],
     },
   },
+  overrides: {
+    MuiTab: {
+      root: {
+        minWidth: 0,
+        '@media (min-width: 0px)': {
+          minWidth: 0,
+        },
+      },
+    },
+  },
 });
 
 class App extends Component {
