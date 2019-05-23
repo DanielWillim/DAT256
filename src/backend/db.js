@@ -33,5 +33,7 @@ export const getHighscores = async (count = 10) => {
     .limitToFirst(count)
     .once('value');
 
-  return Object.values(leaderboard.val());
+  return Object.values(leaderboard.val())
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score);
 };
