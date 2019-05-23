@@ -10,7 +10,6 @@ import {
 
 import Answer from 'Answer';
 import Auth from 'backend/auth';
-import GameOver from 'GameOver';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
 import TicketPage from 'TicketPage';
@@ -44,13 +43,15 @@ const theme = createMuiTheme({
   },
 });
 
+// Default value for GameTimer, in seconds
+const defaultGameTimer = 10;
+
 class App extends Component {
   state = {
     responded: false,
     currentQuestion: randomQuestion(),
     points: 0,
-    setStartTimer: 10000,
-    timer: 10000,
+    timer: defaultGameTimer,
     gameOver: false,
     answered: '-',
     ticketStatus: ticketStatusConst.notResponded,
@@ -65,11 +66,10 @@ class App extends Component {
   }
 
   restartQuestions = () => {
-    const { setStartTimer } = this.state;
     this.setState({
       gameOver: false,
       responded: false,
-      timer: setStartTimer,
+      timer: defaultGameTimer,
       points: 0,
       currentQuestion: randomQuestion(),
     });
@@ -107,22 +107,21 @@ class App extends Component {
     if (!responded) {
       return (
         <Question
-          viewTimeLeft={(newTimer) => {
+          updateGameTimer={(newTimer) => {
             this.setState({ timer: newTimer });
           }}
           category="Lokalområdet"
           answers={answers}
+          points={points}
           timer={timer}
           onTimeOut={this.timerRunOut}
-          onAnswer={(won, newTimer, text) => {
+          onAnswer={(won, text) => {
             this.setState({ responded: { won } });
             this.setState({ answered: text });
             if (won) {
-              this.setState({ points: points + 1, timer: newTimer + 3000 });
+              this.setState({ points: points + 1, timer: timer + 3 });
             } else if (points > 0) {
-              this.setState({ points: points - 1, timer: newTimer });
-            } else {
-              this.setState({ timer: newTimer });
+              this.setState({ points: points - 1 });
             }
           }}
           question={question}
@@ -133,10 +132,11 @@ class App extends Component {
     if (responded.won) {
       return (
         <Answer
-          mening="Grattis du svarade rätt!"
           onNext={this.nextQuestion}
           answers={answers}
           answer={correctAnswers}
+          buttontext="Nästa fråga"
+
           category="Lokalområde"
           question={question}
           points={points}
@@ -148,20 +148,26 @@ class App extends Component {
 
     if (gameOver) {
       return (
-        <GameOver
+        <Answer
           onNext={this.restartQuestions}
+          answers={answers}
           answer={correctAnswers}
+          buttontext="Starta nytt spel"
+          category="Tiden är slut"
+          question="Game Over"
           points={points}
+          answered={answered}
         />
       );
     }
 
+    // Fail
     return (
       <Answer
-        mening="Fail! Du svarade fel!"
         onNext={this.nextQuestion}
         answers={answers}
         answer={correctAnswers}
+        buttontext="Nästa fråga"
         category="Lokalområde"
         question={question}
         points={points}

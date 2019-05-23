@@ -1,11 +1,14 @@
 import React from 'react';
 
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+
 
 const styles = () => ({
   card: { minWidth: 275 },
@@ -27,9 +30,9 @@ function getBackgroundColor(isCorrect, text, answered) {
 function Answer({
   answered,
   answers,
+  buttontext,
   category,
   classes: { card, lowered },
-  mening,
   onNext,
   points,
   question,
@@ -37,48 +40,47 @@ function Answer({
 }) {
   return (
     <Card className={card}>
-      <CardContent>
-        <Typography variant="body1" color="textSecondary">
-          {category}
-        </Typography>
-        <Typography variant="h6" className={lowered}>
-          {question}
-        </Typography>
-      </CardContent>
-      <Divider />
-      { answers.map(([text, isCorrect]) => (
-        <CardActionArea
-          key={text}
-          onClick={() => {
-            // console.log(isCorrect);
-          }}
-        >
-          <CardContent style={
-            { backgroundColor: getBackgroundColor(isCorrect, text, answered) }}
+      <center>
+        <CardContent>
+          <Typography variant="body1" color="textSecondary">
+            {category}
+          </Typography>
+          <Typography variant="h6" className={lowered}>
+            {question}
+          </Typography>
+        </CardContent>
+        <Divider />
+        { answers.map(([text, isCorrect]) => (
+          <CardActionArea
+            key={text}
           >
-            <Typography variant="body1">
-              {text}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      ))}
-      <br />
-      <Typography variant="h6">
-        {mening}
-        <br />
-        Du har&nbsp;
-        {points}
-        &nbsp;poäng!
-      </Typography>
-      <br />
-      <button type="button" onClick={onNext}>Fler frågor!</button>
-      <br />
-      <br />
-      <Typography variant="body1">
-        Du har&nbsp;
-        {timer / 1000}
-        &nbsp;sekunder kvar!
-      </Typography>
+            <CardContent style={
+              { backgroundColor: getBackgroundColor(isCorrect, text, answered) }
+            }
+            >
+              <Typography variant="body1">
+                {text}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        ))}
+        <Divider />
+        <CardContent>
+          <Grid container spacing={24}>
+            <Grid item xs={6}>
+              <Typography variant="body1" align="left">
+                {`Tid kvar: ${timer === undefined ? 0 : timer}`}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography variant="body1" align="right">
+                {`Poäng: ${points}`}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Button variant="contained" align="center" onClick={onNext}>{buttontext}</Button>
+        </CardContent>
+      </center>
     </Card>
   );
 }
