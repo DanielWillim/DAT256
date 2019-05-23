@@ -151,7 +151,8 @@ class App extends Component {
           answers={answers}
           answer={correctAnswers}
           buttontext="Starta nytt spel"
-          category="Lokalområde"
+          category="Tiden är slut"
+          
           question={question}
           points={points}
           answered={answered}
