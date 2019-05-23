@@ -61,8 +61,8 @@ class App extends Component {
     gameOver: false,
     locationOk: LocationStatus.noLocation,
     developerModeGPSCheck: false,
-    GPSLocationTime: 15000,
-    continusGPSChckerTime: 3000,
+    GPSLocationTime: 15 * 60 * 1000,
+    continusGPSChckerTime: 3 * 1000,
     answered: '-',
     ticketStatus: ticketStatusConst.notResponded,
   }
@@ -100,7 +100,6 @@ class App extends Component {
       continusGPSChckerTime,
     );
     if (navigator.geolocation) {
-      console.log('check');
       navigator.geolocation.getCurrentPosition(
         position => this.GPSTimerResetCheck(checkStations(
           parseFloat(position.coords.latitude),
