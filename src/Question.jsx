@@ -16,6 +16,7 @@ const styles = () => ({
 
 // How many seconds each tick should be
 const GAME_TIMER_INTERVALL = 0.1;
+const GAME_TIMER_PRECISION = 1;
 
 class Question extends Component {
   componentDidMount() {
