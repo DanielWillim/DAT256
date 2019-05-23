@@ -174,6 +174,7 @@ class App extends Component {
       if (!developerModeGPSCheck) {
         return (
           <GPSCheck
+            classes={classes}
             developerModeGPSCheck={(developerMode) => {
               this.setState({ developerModeGPSCheck: { developerMode } });
             }}
