@@ -28,8 +28,8 @@ export const stations = [
   },
   {
     station: 'Martins Crib',
-    latitude: 57.688000100000004,
-    longitude: 11.9923873,
+    latitude: 52.689159200000006,
+    longitude: 12.974281699999999,
   },
 ];
 

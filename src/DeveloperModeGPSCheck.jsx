@@ -8,8 +8,7 @@ import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-import GPSCheck, * as LocationStatus from 'GPSCheck'; 
-
+import * as LocationStatus from 'GPSCheck';
 import { checkStations } from 'stations';
 
 const styles = () => ({
@@ -40,7 +39,7 @@ function DeveloperModeGPSCheck({
       <CardContent>
         <Typography variant="h6" className={lowered}>
           {getCorrectLocationQuestion(locationOk)}
-        </Typography> 
+        </Typography>
       </CardContent>
       <Divider />
       <CardContent>

@@ -19,6 +19,7 @@ import TicketPage from 'TicketPage';
 
 let GPSLocationTimer = setTimeout(0);
 let continusGPSChckerTimer = setTimeout(0);
+
 const ticketStatusConst = {
   validTicket: 'Valid',
   error: 'TicketError',
@@ -60,7 +61,7 @@ class App extends Component {
     gameOver: false,
     locationOk: LocationStatus.noLocation,
     developerModeGPSCheck: false,
-    GPSLocationTime: 60000,
+    GPSLocationTime: 15000,
     continusGPSChckerTime: 3000,
     answered: '-',
     ticketStatus: ticketStatusConst.notResponded,
@@ -86,6 +87,7 @@ class App extends Component {
 
   GPSTimerOut = () => {
     this.setState({ locationOk: LocationStatus.locationTimerOut });
+    clearTimeout(continusGPSChckerTimer);
     this.restartQuestions();
   }
 
@@ -98,6 +100,7 @@ class App extends Component {
       continusGPSChckerTime,
     );
     if (navigator.geolocation) {
+      console.log('check');
       navigator.geolocation.getCurrentPosition(
         position => this.GPSTimerResetCheck(checkStations(
           parseFloat(position.coords.latitude),
@@ -141,60 +144,48 @@ class App extends Component {
       .filter(([, isCorrect]) => isCorrect)
       .map(([answer]) => answer);
 
-    const { classes: { main } } = this.props;
-
     if (locationOk !== LocationStatus.validLocation) {
       clearTimeout(GPSLocationTimer);
       if (!developerModeGPSCheck) {
         return (
-          <MuiThemeProvider theme={theme}>
-            <CssBaseline />
-            <main className={main}>
-              <GPSCheck
-                developerModeGPSCheck={(developerMode) => {
-                  this.setState({ developerModeGPSCheck: { developerMode } });
-                }}
-                locationCheck={(onStation) => {
-                  this.setState({ locationOk: onStation });
-                  if (onStation === LocationStatus.validLocation) {
-                    GPSLocationTimer = setTimeout(
-                      this.GPSTimerOut,
-                      GPSLocationTime,
-                    );
-                    continusGPSChckerTimer = setTimeout(
-                      this.continiusGPSCheck,
-                      continusGPSChckerTime,
-                    );
-                  }
-                }}
-                locationOk={locationOk}
-              />
-            </main>
-          </MuiThemeProvider>
+          <GPSCheck
+            developerModeGPSCheck={(developerMode) => {
+              this.setState({ developerModeGPSCheck: { developerMode } });
+            }}
+            locationCheck={(onStation) => {
+              this.setState({ locationOk: onStation });
+              if (onStation === LocationStatus.validLocation) {
+                GPSLocationTimer = setTimeout(
+                  this.GPSTimerOut,
+                  GPSLocationTime,
+                );
+                continusGPSChckerTimer = setTimeout(
+                  this.continiusGPSCheck,
+                  continusGPSChckerTime,
+                );
+              }
+            }}
+            locationOk={locationOk}
+          />
         );
       }
       return (
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <main className={main}>
-            <DeveloperModeGPSCheck
-              locationCheck={(onStation) => {
-                this.setState({ locationOk: onStation });
-                if (onStation === LocationStatus.validLocation) {
-                  GPSLocationTimer = setTimeout(
-                    this.GPSTimerOut,
-                    GPSLocationTime,
-                  );
-                  continusGPSChckerTimer = setTimeout(
-                    this.continiusGPSCheck,
-                    continusGPSChckerTime,
-                  );
-                }
-              }}
-              locationOk={locationOk}
-            />
-          </main>
-        </MuiThemeProvider>
+        <DeveloperModeGPSCheck
+          locationCheck={(onStation) => {
+            this.setState({ locationOk: onStation });
+            if (onStation === LocationStatus.validLocation) {
+              GPSLocationTimer = setTimeout(
+                this.GPSTimerOut,
+                GPSLocationTime,
+              );
+              continusGPSChckerTimer = setTimeout(
+                this.continiusGPSCheck,
+                continusGPSChckerTime,
+              );
+            }
+          }}
+          locationOk={locationOk}
+        />
       );
     }
 
