@@ -8,18 +8,13 @@ import {
   withStyles,
 } from '@material-ui/core/styles';
 
-import DeveloperModeGPSCheck from 'DeveloperModeGPSCheck';
-import Fail from 'Fail';
-import GameOver from 'GameOver';
-import GPSCheck, * as LocationStatus from 'GPSCheck';
-import Question, * as Timer from 'Question';
-import { randomQuestion } from 'questions';
-import { checkStations } from 'stations';
-import Win from 'Win';
 import Answer from 'Answer';
 import Auth from 'backend/auth';
+import DeveloperModeGPSCheck from 'DeveloperModeGPSCheck';
+import GPSCheck, * as LocationStatus from 'GPSCheck';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
+import { checkStations } from 'stations';
 import TicketPage from 'TicketPage';
 
 let GPSLocationTimer = setTimeout(0);
@@ -90,7 +85,6 @@ class App extends Component {
   }
 
   GPSTimerOut = () => {
-    clearTimeout(Timer.gameTimer);
     this.setState({ locationOk: LocationStatus.locationTimerOut });
     this.restartQuestions();
   }
@@ -132,8 +126,8 @@ class App extends Component {
   render() {
     const {
       GPSLocationTime,
-      continusGPSChckerTime,
       answered,
+      continusGPSChckerTime,
       currentQuestion: { answers, question },
       developerModeGPSCheck,
       gameOver,
