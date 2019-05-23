@@ -1,3 +1,5 @@
+import 'firebase/database';
+
 import firebase from './firebase';
 
 export const db = firebase.database();
