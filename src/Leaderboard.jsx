@@ -35,7 +35,7 @@ class Leaderboard extends Component {
       <Card className={card}>
         <CardContent>
           <Typography variant="h6" className={lowered}>
-            Resultatlista
+            Topplista
           </Typography>
           <Divider />
           <Typography variant="h6" className={lowered}>
