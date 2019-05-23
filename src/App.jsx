@@ -10,9 +10,15 @@ import {
 
 import Answer from 'Answer';
 import Auth from 'backend/auth';
+import DeveloperModeGPSCheck from 'DeveloperModeGPSCheck';
+import GPSCheck, * as LocationStatus from 'GPSCheck';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
+import { checkStations } from 'stations';
 import TicketPage from 'TicketPage';
+
+let GPSLocationTimer = setTimeout(0);
+let continusGPSChckerTimer = setTimeout(0);
 
 const ticketStatusConst = {
   validTicket: 'Valid',
@@ -53,6 +59,10 @@ class App extends Component {
     points: 0,
     timer: defaultGameTimer,
     gameOver: false,
+    locationOk: LocationStatus.noLocation,
+    developerModeGPSCheck: false,
+    GPSLocationTime: 15 * 60 * 1000,
+    continusGPSChckerTime: 3 * 1000,
     answered: '-',
     ticketStatus: ticketStatusConst.notResponded,
   }
@@ -75,11 +85,55 @@ class App extends Component {
     });
   }
 
+  GPSTimerOut = () => {
+    this.setState({ locationOk: LocationStatus.locationTimerOut });
+    clearTimeout(continusGPSChckerTimer);
+    this.restartQuestions();
+  }
+
+  continiusGPSCheck = () => {
+    const {
+      continusGPSChckerTime,
+    } = this.state;
+    continusGPSChckerTimer = setTimeout(
+      this.continiusGPSCheck,
+      continusGPSChckerTime,
+    );
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => this.GPSTimerResetCheck(checkStations(
+          parseFloat(position.coords.latitude),
+          parseFloat(position.coords.longitude),
+        )),
+      );
+    }
+  }
+
+  GPSTimerResetCheck = (onStation) => {
+    if (onStation === LocationStatus.validLocation) {
+      this.GPSTimerReset();
+    }
+  }
+
+  GPSTimerReset = () => {
+    const {
+      GPSLocationTime,
+    } = this.state;
+    clearTimeout(GPSLocationTimer);
+    GPSLocationTimer = setTimeout(
+      this.GPSTimerOut, GPSLocationTime,
+    );
+  }
+
   render() {
     const {
+      GPSLocationTime,
       answered,
+      continusGPSChckerTime,
       currentQuestion: { answers, question },
+      developerModeGPSCheck,
       gameOver,
+      locationOk,
       points,
       responded,
       ticketStatus,
@@ -88,6 +142,51 @@ class App extends Component {
     const correctAnswers = answers
       .filter(([, isCorrect]) => isCorrect)
       .map(([answer]) => answer);
+
+    if (locationOk !== LocationStatus.validLocation) {
+      clearTimeout(GPSLocationTimer);
+      if (!developerModeGPSCheck) {
+        return (
+          <GPSCheck
+            developerModeGPSCheck={(developerMode) => {
+              this.setState({ developerModeGPSCheck: { developerMode } });
+            }}
+            locationCheck={(onStation) => {
+              this.setState({ locationOk: onStation });
+              if (onStation === LocationStatus.validLocation) {
+                GPSLocationTimer = setTimeout(
+                  this.GPSTimerOut,
+                  GPSLocationTime,
+                );
+                continusGPSChckerTimer = setTimeout(
+                  this.continiusGPSCheck,
+                  continusGPSChckerTime,
+                );
+              }
+            }}
+            locationOk={locationOk}
+          />
+        );
+      }
+      return (
+        <DeveloperModeGPSCheck
+          locationCheck={(onStation) => {
+            this.setState({ locationOk: onStation });
+            if (onStation === LocationStatus.validLocation) {
+              GPSLocationTimer = setTimeout(
+                this.GPSTimerOut,
+                GPSLocationTime,
+              );
+              continusGPSChckerTimer = setTimeout(
+                this.continiusGPSCheck,
+                continusGPSChckerTime,
+              );
+            }
+          }}
+          locationOk={locationOk}
+        />
+      );
+    }
 
     if (ticketStatus === ticketStatusConst.notResponded
      || ticketStatus === ticketStatusConst.error) {
