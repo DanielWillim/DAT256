@@ -9,7 +9,10 @@ import {
 } from '@material-ui/core/styles';
 
 import Answer from 'Answer';
-import Auth from 'backend/auth';
+import Auth, { AuthContext } from 'backend/auth';
+
+import { setScore } from 'backend/db';
+import { uid } from 'backend/user';
 import GameOver from 'GameOver';
 import Leaderboard from 'Leaderboard';
 import Question from 'Question';
@@ -47,6 +50,8 @@ const theme = createMuiTheme({
 });
 
 class App extends Component {
+  static contextType = AuthContext;
+
   state = {
     responded: false,
     currentQuestion: randomQuestion(),
@@ -67,7 +72,13 @@ class App extends Component {
   }
 
   restartQuestions = () => {
-    const { setStartTimer } = this.state;
+    const {
+      points,
+      setStartTimer,
+    } = this.state;
+
+    setScore(uid(this.context), points);
+
     this.setState({
       gameOver: false,
       responded: false,
@@ -91,10 +102,12 @@ class App extends Component {
       .filter(([, isCorrect]) => isCorrect)
       .map(([answer]) => answer);
 
-    //kommentera in detta för att testa Leaderboard
-    /**return (
+    // kommentera in detta för att testa Leaderboard
+    /**
+    return (
       <Leaderboard />
-    );**/
+    );
+   */
 
     if (ticketStatus === ticketStatusConst.notResponded
      || ticketStatus === ticketStatusConst.error) {
