@@ -47,7 +47,8 @@ function GPSCheck({
           {getCorrectLocationQuestion(locationOk)}
         </Typography>
         <Typography variant="body1" className={lowered}>
-          Genom att starta spelet ger du tillåtesle till att vi kontrollerar vart du befinner dig.
+          Genom att starta spelet ger du tillåtesle
+          till att vi kontrollerar vart du befinner dig.
         </Typography>
       </CardContent>
       <Divider />
