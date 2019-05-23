@@ -1,9 +1,12 @@
 import React from 'react';
 
+import Button from '@material-ui/core/Button';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+
 
 function getBackgroundColor(isCorrect, text, answered) {
   if (isCorrect) {
@@ -20,16 +23,16 @@ function getBackgroundColor(isCorrect, text, answered) {
 export default function Answer({
   answered,
   answers,
+  buttontext,
   category,
   classes: { lowered },
-  mening,
   onNext,
   points,
   question,
   timer,
 }) {
   return (
-    <React.Fragment>
+    <center>
       <CardContent>
         <Typography variant="body1" color="textSecondary">
           {category}
@@ -42,12 +45,10 @@ export default function Answer({
       { answers.map(([text, isCorrect]) => (
         <CardActionArea
           key={text}
-          onClick={() => {
-            // console.log(isCorrect);
-          }}
         >
           <CardContent style={
-            { backgroundColor: getBackgroundColor(isCorrect, text, answered) }}
+            { backgroundColor: getBackgroundColor(isCorrect, text, answered) }
+          }
           >
             <Typography variant="body1">
               {text}
@@ -55,23 +56,22 @@ export default function Answer({
           </CardContent>
         </CardActionArea>
       ))}
-      <br />
-      <Typography variant="h6">
-        {mening}
-        <br />
-        Du har&nbsp;
-        {points}
-        &nbsp;poäng!
-      </Typography>
-      <br />
-      <button type="button" onClick={onNext}>Fler frågor!</button>
-      <br />
-      <br />
-      <Typography variant="body1">
-        Du har&nbsp;
-        {timer / 1000}
-        &nbsp;sekunder kvar!
-      </Typography>
-    </React.Fragment>
+      <Divider />
+      <CardContent>
+        <Grid container spacing={24}>
+          <Grid item xs={6}>
+            <Typography variant="body1" align="left">
+              {`Tid kvar: ${timer === undefined ? 0 : timer}`}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="body1" align="right">
+              {`Poäng: ${points}`}
+            </Typography>
+          </Grid>
+        </Grid>
+        <Button variant="contained" align="center" onClick={onNext}>{buttontext}</Button>
+      </CardContent>
+    </center>
   );
 }
