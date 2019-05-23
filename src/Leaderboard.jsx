@@ -31,8 +31,8 @@ export default class Leaderboard extends Component {
         </Typography>
         <Divider />
         <Typography variant="h6" className={lowered}>
-          {highscores.map(({ name, score: points }, place) => (
-            <CardContent key={name}>
+          {highscores.map(({ id, name, score: points }, place) => (
+            <CardContent key={id}>
               <Typography variant="body1">
                 {`${place + 1}. ${name}: ${points} poäng`}
               </Typography>
