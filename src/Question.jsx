@@ -85,7 +85,7 @@ class Question extends Component {
             <Grid container spacing={24}>
               <Grid item xs={6}>
                 <Typography variant="body1" align="left">
-                  {`Tid kvar: ${timer}`}
+                  {`Tid kvar: ${timer.toFixed(GAME_TIMER_PRECISION)}`}
                 </Typography>
               </Grid>
               <Grid item xs={6}>
