@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
@@ -24,12 +25,14 @@ function LogOutpage({
         </CardContent>
         <Divider />
         <br />
-        <button
+        <Button
+          variant="contained"
+          align="center"
           type="button"
           onClick={() => console.log('test')}
         >
           Logga ut
-        </button>
+        </Button>
         <br />
         <br />
       </Card>
