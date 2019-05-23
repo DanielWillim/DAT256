@@ -314,16 +314,16 @@ export default withStyles(styles)(({ classes }) => (
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
     <main className={classes.main}>
-      <Auth>
-        <Card className={classes.card}>
+      <Card className={classes.card}>
+        <Auth classes={classes}>
           <Menu
             classes={classes}
             App={App}
             Leaderboard={Leaderboard}
             LogoutPage={LogoutPage}
           />
-        </Card>
-      </Auth>
+        </Auth>
+      </Card>
     </main>
   </MuiThemeProvider>
 ));

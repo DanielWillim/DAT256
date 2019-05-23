@@ -1,23 +1,19 @@
-import React from 'react';
+import React, { createRef } from 'react';
 
-import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
-import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
-const styles = () => ({
-  card: { minWidth: 275 },
-  lowered: { marginTop: 12 },
-});
-
-function PickName({
-  classes: { card, lowered },
+export default function PickName({
+  classes: { lowered },
+  onName,
 }) {
+  const name = createRef();
+
   return (
-    <Card className={card}>
+    <React.Fragment>
       <CardContent>
         <Typography variant="h6" className={lowered}>
           Skriv in ditt namn för registrering till topplista
@@ -26,25 +22,20 @@ function PickName({
       <Divider />
       <CardContent>
         <TextField
-          id="name"
-          label="Vad e ditt namn"
-          defaultValue="Namn"
+          inputRef={name}
+          label="Vad är ditt namn?"
+          defaultValue="Gäst"
           margin="normal"
         />
       </CardContent>
       <Divider />
-      <CardActionArea
-        onClick={() => {
-        }}
-      >
+      <CardActionArea onClick={() => onName(name.current.value)}>
         <CardContent>
           <Typography variant="body1">
             Registrera namn
           </Typography>
         </CardContent>
       </CardActionArea>
-    </Card>
+    </React.Fragment>
   );
 }
-
-export default withStyles(styles)(PickName);
