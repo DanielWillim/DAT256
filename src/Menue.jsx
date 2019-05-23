@@ -7,15 +7,14 @@ import Tabs from '@material-ui/core/Tabs';
 import Casino from '@material-ui/icons/Casino';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import Star from '@material-ui/icons/Star';
-import PropTypes from 'prop-types';
 
+import Leaderboard from 'Leaderboard';
 import LogOutpage from 'LogOutpage';
-import Topplista from 'Topplista';
 
 
 const styles = {
   root: {
-    flexGrow: 0,
+    flexGrow: 1,
     maxWidth: 400,
   },
 };
@@ -31,12 +30,11 @@ class IconLabelTabs extends React.Component {
 
   render() {
     const { App, classes } = this.props;
-    console.log(this.state);
     const { value } = this.state;
     return (
       <Paper square className={classes.root}>
         <Tabs
-          value={this.state.value}
+          value={value}
           onChange={this.handleChange}
           variant="fullWidth"
           indicatorColor="secondary"
@@ -48,7 +46,7 @@ class IconLabelTabs extends React.Component {
         </Tabs>
         {[
           <App />,
-          <Topplista />,
+          <Leaderboard />,
           <LogOutpage />,
         ][value]
         }
@@ -57,9 +55,5 @@ class IconLabelTabs extends React.Component {
     );
   }
 }
-
-IconLabelTabs.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
 
 export default withStyles(styles)(IconLabelTabs);
