@@ -97,10 +97,6 @@ class App extends Component {
   }
 
   restartQuestions = () => {
-    const {
-      points,
-    } = this.state;
-
     this.setState({
       gameOver: false,
       responded: false,
