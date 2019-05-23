@@ -9,14 +9,9 @@ import Typography from '@material-ui/core/Typography';
 
 import { getHighscores } from 'backend/db';
 
-const styles = () => ({
-  card: { minWidth: 275 },
-  lowered: { marginTop: 12 },
-});
-
 const loading = Symbol('loading');
 
-class Leaderboard extends Component {
+export default class Leaderboard extends Component {
   state = {
     highscores: loading,
   }
@@ -26,32 +21,28 @@ class Leaderboard extends Component {
   }
 
   render() {
-    const { classes: { card, lowered } } = this.props;
+    const { classes: { lowered } } = this.props;
     const { highscores } = this.state;
 
     if (highscores === loading) return <CircularProgress />;
 
     return (
-      <Card className={card}>
-        <CardContent>
-          <Typography variant="h6" className={lowered}>
-            Topplista
-          </Typography>
-          <Divider />
-          <Typography variant="h6" className={lowered}>
-            {highscores.map(({ name, score: points }, place) => (
-              <CardContent key={name}>
-                <Typography variant="body1">
-                  {`${place + 1}. ${name}: ${points} poäng`}
-                  <Divider />
-                </Typography>
-              </CardContent>
-            ))}
-          </Typography>
-        </CardContent>
-      </Card>
+      <CardContent>
+        <Typography variant="h6" className={lowered}>
+          Topplista
+        </Typography>
+        <Divider />
+        <Typography variant="h6" className={lowered}>
+          {highscores.map(({ name, score: points }, place) => (
+            <CardContent key={name}>
+              <Typography variant="body1">
+                {`${place + 1}. ${name}: ${points} poäng`}
+              </Typography>
+              <Divider />
+            </CardContent>
+          ))}
+        </Typography>
+      </CardContent>
     );
   }
 }
-
-export default withStyles(styles)(Leaderboard);
