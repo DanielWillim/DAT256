@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function GameOver({ answer, onNext, points }) {
   return (
-    <p>
+    <React.Fragment>
       <h1>
         GAME OVVER!
       </h1>
@@ -21,6 +21,6 @@ export default function GameOver({ answer, onNext, points }) {
         {points}
         &nbsp;poäng!
       </h1>
-    </p>
+    </React.Fragment>
   );
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Card from '@material-ui/core/Card';
 import purple from '@material-ui/core/colors/deepPurple';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {
@@ -12,10 +13,12 @@ import Answer from 'Answer';
 import Auth from 'backend/auth';
 import GameOver from 'GameOver';
 import LogOutpage from 'LogOutpage';
-import IconLabelTabs from 'Menue';
+import Menu from 'Menue';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
 import TicketPage from 'TicketPage';
+import Topplista from 'Topplista';
+
 
 const ticketStatusConst = {
   validTicket: 'Valid',
@@ -36,6 +39,8 @@ const styles = theme => ({
       marginRight: 'auto',
     },
   },
+  card: { minWidth: 275 },
+  lowered: { marginTop: 12 },
 });
 
 const theme = createMuiTheme({
@@ -78,6 +83,7 @@ class App extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     const {
       answered,
       currentQuestion: { answers, question },
@@ -95,6 +101,7 @@ class App extends Component {
      || ticketStatus === ticketStatusConst.error) {
       return (
         <TicketPage
+          classes={classes}
           onFail={() => {
             this.setState({ ticketStatus: ticketStatusConst.error });
           }}
@@ -109,6 +116,7 @@ class App extends Component {
     if (!responded) {
       return (
         <Question
+          classes={classes}
           viewTimeLeft={(newTimer) => {
             this.setState({ timer: newTimer });
           }}
@@ -135,6 +143,7 @@ class App extends Component {
     if (responded.won) {
       return (
         <Answer
+          classes={classes}
           mening="Grattis du svarade rätt!"
           onNext={this.nextQuestion}
           answers={answers}
@@ -151,6 +160,7 @@ class App extends Component {
     if (gameOver) {
       return (
         <GameOver
+          classes={classes}
           onNext={this.restartQuestions}
           answer={correctAnswers}
           points={points}
@@ -160,6 +170,7 @@ class App extends Component {
 
     return (
       <Answer
+        classes={classes}
         mening="Fail! Du svarade fel!"
         onNext={this.nextQuestion}
         answers={answers}
@@ -175,12 +186,19 @@ class App extends Component {
 }
 
 // Wrap App in style and authentication
-export default withStyles(styles)(({ classes: { main } }) => (
+export default withStyles(styles)(({ classes }) => (
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
-    <main className={main}>
+    <main className={classes.main}>
       <Auth>
-        <IconLabelTabs App={App} LogOutpage={LogOutpage} />
+        <Card className={classes.card}>
+          <Menu
+            classes={classes}
+            App={App}
+            Leaderboard={Topplista}
+            LogoutPage={LogOutpage}
+          />
+        </Card>
       </Auth>
     </main>
   </MuiThemeProvider>

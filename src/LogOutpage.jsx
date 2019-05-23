@@ -4,15 +4,9 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
-import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
-const styles = () => ({
-  card: { minWidth: 275 },
-  lowered: { marginTop: 12 },
-});
-
-function LogOutpage({
+export default function LogOutpage({
   classes: { card, lowered },
 }) {
   return (
@@ -29,7 +23,8 @@ function LogOutpage({
           variant="contained"
           align="center"
           type="button"
-          onClick={() => console.log('test')}
+          // TODO: Sign out action
+          onClick={() => 'TODO'}
         >
           Logga ut
         </Button>
@@ -37,7 +32,5 @@ function LogOutpage({
         <br />
       </Card>
     </center>
-
   );
 }
-export default withStyles(styles)(LogOutpage);

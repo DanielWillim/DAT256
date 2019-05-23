@@ -1,16 +1,9 @@
 import React from 'react';
 
-import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
-import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-
-const styles = () => ({
-  card: { minWidth: 275 },
-  lowered: { marginTop: 12 },
-});
 
 function getBackgroundColor(isCorrect, text, answered) {
   if (isCorrect) {
@@ -24,11 +17,11 @@ function getBackgroundColor(isCorrect, text, answered) {
   return 'white';
 }
 
-function Answer({
+export default function Answer({
   answered,
   answers,
   category,
-  classes: { card, lowered },
+  classes: { lowered },
   mening,
   onNext,
   points,
@@ -36,7 +29,7 @@ function Answer({
   timer,
 }) {
   return (
-    <Card className={card}>
+    <React.Fragment>
       <CardContent>
         <Typography variant="body1" color="textSecondary">
           {category}
@@ -79,8 +72,6 @@ function Answer({
         {timer / 1000}
         &nbsp;sekunder kvar!
       </Typography>
-    </Card>
+    </React.Fragment>
   );
 }
-
-export default withStyles(styles)(Answer);

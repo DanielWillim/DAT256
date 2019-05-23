@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
@@ -15,7 +14,7 @@ const styles = () => ({
 function Question({
   answers,
   category,
-  classes: { card, lowered },
+  classes: { lowered },
   onAnswer,
   onTimeOut,
   question,
@@ -39,7 +38,7 @@ function Question({
   );
 
   return (
-    <Card className={card}>
+    <React.Fragment>
       <CardContent>
         <Typography variant="body1" color="textSecondary">
           {category}
@@ -71,7 +70,7 @@ function Question({
           {`Tid kvar: ${Math.ceil(timer / 1000)}`}
         </Typography>
       </CardContent>
-    </Card>
+    </React.Fragment>
   );
 }
 
