@@ -12,7 +12,7 @@ import {
 import Answer from 'Answer';
 import Auth, { AuthContext } from 'backend/auth';
 import { setScore } from 'backend/db';
-import { uid } from 'backend/user';
+import { uid, userName } from 'backend/user';
 import DeveloperModeGPSCheck from 'DeveloperModeGPSCheck';
 import GPSCheck, * as LocationStatus from 'GPSCheck';
 import Leaderboard from 'Leaderboard';
@@ -100,8 +100,6 @@ class App extends Component {
     const {
       points,
     } = this.state;
-
-    setScore(uid(this.context), points);
 
     this.setState({
       gameOver: false,
@@ -277,6 +275,7 @@ class App extends Component {
     }
 
     if (gameOver) {
+      setScore(uid(this.context), points, userName(this.context));
       return (
         <Answer
           classes={classes}

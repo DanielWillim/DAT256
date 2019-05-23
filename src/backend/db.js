@@ -20,11 +20,11 @@ export const getPrivateUserData = uidGetter(userDataName('private'));
 export const updatePrivateUserData = uidUpdater(userDataName('private'));
 
 export const getScore = uidGetter(uid => `scores/${uid}`);
-export const setScore = async (uid, newScore) => {
-  const { score } = await getScore(uid);
+export const setScore = async (uid, newScore, name = null) => {
+  const { score = 0 } = await getScore(uid) || {};
   if (score > newScore) return;
 
-  await updateEndpointValue(`scores/${uid}`, { score: newScore });
+  await updateEndpointValue(`scores/${uid}`, { score: newScore, name });
 };
 
 export const getHighscores = async (count = 10) => {
