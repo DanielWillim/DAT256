@@ -26,7 +26,7 @@ function getCorrectLocationQuestion(whichQuestion) {
     return 'Välkommen till världens bästa spel!';
   }
   if (whichQuestion === locationNotAvailable) {
-    return 'Geolocation is not supported by this browser.';
+    return 'Vi kunde inte hämta din plats';
   }
   if (whichQuestion === locationTimerOut) {
     return 'Du har varit bort från en hållplats förlänge! Gå till en för att forstätta spela!';
@@ -55,12 +55,15 @@ function GPSCheck({
       <CardActionArea
         onClick={() => {
           if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(position => locationCheck(
-              checkStations(
-                parseFloat(position.coords.latitude),
-                parseFloat(position.coords.longitude),
+            navigator.geolocation.getCurrentPosition(
+              position => locationCheck(
+                checkStations(
+                  parseFloat(position.coords.latitude),
+                  parseFloat(position.coords.longitude),
+                ),
               ),
-            ));
+              () => locationCheck(locationNotAvailable),
+            );
           } else {
             locationCheck(locationNotAvailable);
           }

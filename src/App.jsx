@@ -180,7 +180,6 @@ class App extends Component {
               this.setState({ developerModeGPSCheck: { developerMode } });
             }}
             locationCheck={(onStation) => {
-              this.setState({ locationOk: onStation });
               if (onStation === LocationStatus.validLocation) {
                 GPSLocationTimer = setTimeout(
                   this.GPSTimerOut,
@@ -191,6 +190,7 @@ class App extends Component {
                   continusGPSChckerTime,
                 );
               }
+              this.setState({ locationOk: onStation });
             }}
             locationOk={locationOk}
           />
