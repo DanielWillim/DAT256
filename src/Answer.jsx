@@ -78,7 +78,7 @@ function Answer({
               </Typography>
             </Grid>
           </Grid>
-          <Button variant="contained" align="center" onClick={onNext}>Nästa fråga</Button>
+          <Button variant="contained" align="center" onClick={onNext}>{buttontext}</Button>
         </CardContent>
       </center>
     </Card>
