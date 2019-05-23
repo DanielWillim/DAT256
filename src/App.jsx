@@ -11,6 +11,7 @@ import {
 import Answer from 'Answer';
 import Auth from 'backend/auth';
 import GameOver from 'GameOver';
+import LogOutpage from 'LogOutpage';
 import IconLabelTabs from 'Menue';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
@@ -179,7 +180,7 @@ export default withStyles(styles)(({ classes: { main } }) => (
     <CssBaseline />
     <main className={main}>
       <Auth>
-        <IconLabelTabs App={App} />
+        <IconLabelTabs App={App} LogOutpage={LogOutpage} />
       </Auth>
     </main>
   </MuiThemeProvider>
