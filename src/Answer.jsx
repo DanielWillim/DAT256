@@ -30,6 +30,7 @@ function getBackgroundColor(isCorrect, text, answered) {
 function Answer({
   answered,
   answers,
+  buttontext,
   category,
   classes: { card, lowered },
   onNext,
