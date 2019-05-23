@@ -135,6 +135,8 @@ class App extends Component {
           onNext={this.nextQuestion}
           answers={answers}
           answer={correctAnswers}
+          buttontext="Nästa fråga"
+
           category="Lokalområde"
           question={question}
           points={points}
