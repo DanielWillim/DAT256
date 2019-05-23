@@ -1,20 +1,13 @@
 import React from 'react';
 
-import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
-import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import * as LocationStatus from 'GPSCheck';
 import { checkStations } from 'stations';
-
-const styles = () => ({
-  card: { minWidth: 275 },
-  lowered: { marginTop: 12 },
-});
 
 function getCorrectLocationQuestion(whichQuestion) {
   if (whichQuestion === LocationStatus.noLocation) {
@@ -29,13 +22,13 @@ function getCorrectLocationQuestion(whichQuestion) {
   return 'Du kan tyvärr inte spela världens bästa spel. För att kunna spela måste du ha checkat in i spelet vid en hållplats under de senaste 15 minutrarna. Gå till en hållplats och försök igen!';
 }
 
-function DeveloperModeGPSCheck({
-  classes: { card, lowered },
+export default function DeveloperModeGPSCheck({
+  classes: { lowered },
   locationCheck,
   locationOk,
 }) {
   return (
-    <Card className={card}>
+    <React.Fragment>
       <CardContent>
         <Typography variant="h6" className={lowered}>
           {getCorrectLocationQuestion(locationOk)}
@@ -83,8 +76,6 @@ function DeveloperModeGPSCheck({
           </Typography>
         </CardContent>
       </CardActionArea>
-    </Card>
+    </React.Fragment>
   );
 }
-
-export default withStyles(styles)(DeveloperModeGPSCheck);

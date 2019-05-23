@@ -193,6 +193,7 @@ class App extends Component {
       }
       return (
         <DeveloperModeGPSCheck
+          classes={classes}
           locationCheck={(onStation) => {
             this.setState({ locationOk: onStation });
             if (onStation === LocationStatus.validLocation) {
