@@ -16,9 +16,19 @@ import Question, * as Timer from 'Question';
 import { randomQuestion } from 'questions';
 import { checkStations } from 'stations';
 import Win from 'Win';
+import Answer from 'Answer';
+import Auth from 'backend/auth';
+import Question from 'Question';
+import { randomQuestion } from 'questions';
+import TicketPage from 'TicketPage';
 
 let GPSLocationTimer = setTimeout(0);
 let continusGPSChckerTimer = setTimeout(0);
+const ticketStatusConst = {
+  validTicket: 'Valid',
+  error: 'TicketError',
+  notResponded: 'NotResponded',
+};
 
 const styles = theme => ({
   main: {
@@ -43,18 +53,22 @@ const theme = createMuiTheme({
   },
 });
 
+// Default value for GameTimer, in seconds
+const defaultGameTimer = 10;
+
 class App extends Component {
   state = {
     responded: false,
     currentQuestion: randomQuestion(),
     points: 0,
-    setStartTimer: 10000,
-    timer: 10000,
+    timer: defaultGameTimer,
     gameOver: false,
     locationOk: LocationStatus.noLocation,
     developerModeGPSCheck: false,
     GPSLocationTime: 60000,
     continusGPSChckerTime: 3000,
+    answered: '-',
+    ticketStatus: ticketStatusConst.notResponded,
   }
 
   nextQuestion = () => {
@@ -66,11 +80,10 @@ class App extends Component {
   }
 
   restartQuestions = () => {
-    const { setStartTimer } = this.state;
     this.setState({
       gameOver: false,
       responded: false,
-      timer: setStartTimer,
+      timer: defaultGameTimer,
       points: 0,
       currentQuestion: randomQuestion(),
     });
@@ -120,12 +133,14 @@ class App extends Component {
     const {
       GPSLocationTime,
       continusGPSChckerTime,
+      answered,
       currentQuestion: { answers, question },
       developerModeGPSCheck,
       gameOver,
       locationOk,
       points,
       responded,
+      ticketStatus,
       timer,
     } = this.state;
     const correctAnswers = answers
@@ -133,7 +148,7 @@ class App extends Component {
       .map(([answer]) => answer);
 
     const { classes: { main } } = this.props;
-    
+
     if (locationOk !== LocationStatus.validLocation) {
       clearTimeout(GPSLocationTimer);
       if (!developerModeGPSCheck) {
@@ -188,67 +203,104 @@ class App extends Component {
         </MuiThemeProvider>
       );
     }
+
+    if (ticketStatus === ticketStatusConst.notResponded
+     || ticketStatus === ticketStatusConst.error) {
+      return (
+        <TicketPage
+          onFail={() => {
+            this.setState({ ticketStatus: ticketStatusConst.error });
+          }}
+          onCorrect={() => {
+            this.setState({ ticketStatus: ticketStatusConst.validTicket });
+          }}
+          errorOccured={ticketStatus === ticketStatusConst.error}
+        />
+      );
+    }
+
     if (!responded) {
       return (
-        <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <main className={main}>
-            <Question
-              viewTimeLeft={(newTimer) => {
-                this.setState({ timer: newTimer });
-              }}
-              category="Lokalområdet"
-              answers={answers}
-              timer={timer}
-              onTimeOut={this.timerRunOut}
-              onAnswer={(won, newTimer) => {
-                this.setState({ responded: { won } });
-                if (won) {
-                  this.setState({ points: points + 1, timer: newTimer + 3000 });
-                } else if (points > 0) {
-                  this.setState({ points: points - 1, timer: newTimer });
-                } else {
-                  this.setState({ timer: newTimer });
-                }
-              }
+        <Question
+          updateGameTimer={(newTimer) => {
+            this.setState({ timer: newTimer });
+          }}
+          category="Lokalområdet"
+          answers={answers}
+          points={points}
+          timer={timer}
+          onTimeOut={this.timerRunOut}
+          onAnswer={(won, text) => {
+            this.setState({ responded: { won } });
+            this.setState({ answered: text });
+            if (won) {
+              this.setState({ points: points + 1, timer: timer + 3 });
+            } else if (points > 0) {
+              this.setState({ points: points - 1 });
             }
-              question={question}
-            />
-          </main>
-        </MuiThemeProvider>
+          }}
+          question={question}
+        />
       );
     }
 
     if (responded.won) {
       return (
-        <Win
+        <Answer
           onNext={this.nextQuestion}
+          answers={answers}
           answer={correctAnswers}
+          buttontext="Nästa fråga"
+
+          category="Lokalområde"
+          question={question}
           points={points}
           timer={timer}
+          answered={answered}
         />
       );
     }
 
     if (gameOver) {
       return (
-        <GameOver
+        <Answer
           onNext={this.restartQuestions}
+          answers={answers}
           answer={correctAnswers}
+          buttontext="Starta nytt spel"
+          category="Tiden är slut"
+          question="Game Over"
           points={points}
+          answered={answered}
         />
       );
     }
 
+    // Fail
     return (
-      <Fail
+      <Answer
         onNext={this.nextQuestion}
+        answers={answers}
         answer={correctAnswers}
+        buttontext="Nästa fråga"
+        category="Lokalområde"
+        question={question}
         points={points}
         timer={timer}
+        answered={answered}
       />
     );
   }
 }
 
-export default withStyles(styles)(App);
+// Wrap App in style and authentication
+export default withStyles(styles)(({ classes: { main } }) => (
+  <MuiThemeProvider theme={theme}>
+    <CssBaseline />
+    <main className={main}>
+      <Auth>
+        <App />
+      </Auth>
+    </main>
+  </MuiThemeProvider>
+));
