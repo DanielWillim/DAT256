@@ -12,8 +12,8 @@ import {
 import Answer from 'Answer';
 import Auth from 'backend/auth';
 import GameOver from 'GameOver';
-import LogOutpage from 'LogOutpage';
-import Menu from 'Menue';
+import LogoutPage from 'LogoutPage';
+import Menu from 'Menu';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
 import TicketPage from 'TicketPage';
@@ -196,7 +196,7 @@ export default withStyles(styles)(({ classes }) => (
             classes={classes}
             App={App}
             Leaderboard={Topplista}
-            LogoutPage={LogOutpage}
+            LogoutPage={LogoutPage}
           />
         </Card>
       </Auth>
