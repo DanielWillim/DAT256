@@ -29,11 +29,16 @@ export default class Auth extends Component {
     if (this.removeAuthListener) this.removeAuthListener();
   }
 
-  authListener = () => {
-    auth.onAuthStateChanged(user => this.setState({
-      user: user || notAuthenticated,
-    }));
+  signOut = async () => {
+    await auth.signOut();
+    // this.setState({ user: notAuthenticated });
   }
+
+  authListener = () => auth.onAuthStateChanged(user => this.setState({
+    user: user
+      ? { ...user, signOut: this.signOut }
+      : notAuthenticated,
+  }));
 
   render() {
     const { user } = this.state;
