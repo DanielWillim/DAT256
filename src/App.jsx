@@ -150,6 +150,7 @@ class App extends Component {
           onNext={this.restartQuestions}
           answers={answers}
           answer={correctAnswers}
+          buttontext="Starta nytt spel"
           category="Lokalområde"
           question={question}
           points={points}
