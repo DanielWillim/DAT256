@@ -5,7 +5,6 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Divider from '@material-ui/core/Divider';
-import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
@@ -15,12 +14,7 @@ import { getPrivateUserData, updatePrivateUserData } from 'backend/db';
 import { userName, uid } from 'backend/user';
 
 
-const styles = () => ({
-  card: { minWidth: 275 },
-  lowered: { marginTop: 12 },
-});
-
-class TicketPage extends Component {
+export default class TicketPage extends Component {
   static contextType = AuthContext;
 
   componentDidMount() {
@@ -83,5 +77,3 @@ class TicketPage extends Component {
     );
   }
 }
-
-export default withStyles(styles)(TicketPage);

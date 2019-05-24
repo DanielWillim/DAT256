@@ -1,23 +1,42 @@
+import 'firebase/database';
+
 import firebase from './firebase';
 
 export const db = firebase.database();
 
-const getUserDataGeneral = kind => async (uid) => {
-  const endpoint = db.ref(`userdata/${uid}/${kind}`);
+const getEndpointValue = async (endpoint) => {
+  const result = await db.ref(endpoint).once('value');
+  return result.val();
+};
+const updateEndpointValue = (endpoint, val) => db.ref(endpoint).update(val);
 
-  const entry = await endpoint.once('value');
+const uidGetter = namer => uid => getEndpointValue(namer(uid));
+const uidUpdater = namer => (uid, val) => updateEndpointValue(namer(uid), val);
 
-  return entry.val();
+const userDataName = kind => uid => `userdata/${uid}/${kind}`;
+
+export const getPublicUserData = uidGetter(userDataName('public'));
+export const updatePublicUserData = uidUpdater(userDataName('public'));
+
+export const getPrivateUserData = uidGetter(userDataName('private'));
+export const updatePrivateUserData = uidUpdater(userDataName('private'));
+
+export const getScore = uidGetter(uid => `scores/${uid}`);
+export const setScore = async (uid, newScore, name = null) => {
+  const { score = 0 } = await getScore(uid) || {};
+  if (score > newScore) return;
+
+  await updateEndpointValue(`scores/${uid}`, { score: newScore, name });
 };
 
-export const getPublicUserData = getUserDataGeneral('public');
-export const getPrivateUserData = getUserDataGeneral('private');
+export const getHighscores = async (count = 10) => {
+  const leaderboard = await db.ref('scores')
+    .orderByChild('score')
+    .limitToFirst(count)
+    .once('value');
 
-const updateUserDataGeneral = kind => async (uid, value) => {
-  const updateUserData = db.ref(`userdata/${uid}/${kind}`);
-
-  await updateUserData.update(value);
+  return Object.entries(leaderboard.val())
+    .map(([id, data]) => ({ ...data, id }))
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score);
 };
-
-export const updatePublicUserData = updateUserDataGeneral('public');
-export const updatePrivateUserData = updateUserDataGeneral('private');

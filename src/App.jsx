@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import Card from '@material-ui/core/Card';
 import purple from '@material-ui/core/colors/deepPurple';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import {
@@ -9,13 +10,19 @@ import {
 } from '@material-ui/core/styles';
 
 import Answer from 'Answer';
-import Auth from 'backend/auth';
+import Auth, { AuthContext } from 'backend/auth';
+import { setScore } from 'backend/db';
+import { uid, userName } from 'backend/user';
 import DeveloperModeGPSCheck from 'DeveloperModeGPSCheck';
 import GPSCheck, * as LocationStatus from 'GPSCheck';
+import Leaderboard from 'Leaderboard';
+import LogoutPage from 'LogoutPage';
+import Menu from 'Menu';
 import Question from 'Question';
 import { randomQuestion } from 'questions';
 import { checkStations } from 'stations';
 import TicketPage from 'TicketPage';
+
 
 let GPSLocationTimer = setTimeout(0);
 let continusGPSChckerTimer = setTimeout(0);
@@ -39,6 +46,8 @@ const styles = theme => ({
       marginRight: 'auto',
     },
   },
+  card: { minWidth: 275 },
+  lowered: { marginTop: 12 },
 });
 
 const theme = createMuiTheme({
@@ -47,12 +56,24 @@ const theme = createMuiTheme({
       default: purple[300],
     },
   },
+  overrides: {
+    MuiTab: {
+      root: {
+        minWidth: 0,
+        '@media (min-width: 0px)': {
+          minWidth: 0,
+        },
+      },
+    },
+  },
 });
 
 // Default value for GameTimer, in seconds
 const defaultGameTimer = 10;
 
 class App extends Component {
+  static contextType = AuthContext;
+
   state = {
     responded: false,
     currentQuestion: randomQuestion(),
@@ -126,6 +147,7 @@ class App extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     const {
       GPSLocationTime,
       answered,
@@ -148,11 +170,11 @@ class App extends Component {
       if (!developerModeGPSCheck) {
         return (
           <GPSCheck
+            classes={classes}
             developerModeGPSCheck={(developerMode) => {
               this.setState({ developerModeGPSCheck: { developerMode } });
             }}
             locationCheck={(onStation) => {
-              this.setState({ locationOk: onStation });
               if (onStation === LocationStatus.validLocation) {
                 GPSLocationTimer = setTimeout(
                   this.GPSTimerOut,
@@ -163,6 +185,7 @@ class App extends Component {
                   continusGPSChckerTime,
                 );
               }
+              this.setState({ locationOk: onStation });
             }}
             locationOk={locationOk}
           />
@@ -170,6 +193,7 @@ class App extends Component {
       }
       return (
         <DeveloperModeGPSCheck
+          classes={classes}
           locationCheck={(onStation) => {
             this.setState({ locationOk: onStation });
             if (onStation === LocationStatus.validLocation) {
@@ -192,6 +216,7 @@ class App extends Component {
      || ticketStatus === ticketStatusConst.error) {
       return (
         <TicketPage
+          classes={classes}
           onFail={() => {
             this.setState({ ticketStatus: ticketStatusConst.error });
           }}
@@ -206,6 +231,7 @@ class App extends Component {
     if (!responded) {
       return (
         <Question
+          classes={classes}
           updateGameTimer={(newTimer) => {
             this.setState({ timer: newTimer });
           }}
@@ -231,6 +257,7 @@ class App extends Component {
     if (responded.won) {
       return (
         <Answer
+          classes={classes}
           onNext={this.nextQuestion}
           answers={answers}
           answer={correctAnswers}
@@ -246,8 +273,10 @@ class App extends Component {
     }
 
     if (gameOver) {
+      setScore(uid(this.context), points, userName(this.context));
       return (
         <Answer
+          classes={classes}
           onNext={this.restartQuestions}
           answers={answers}
           answer={correctAnswers}
@@ -263,6 +292,7 @@ class App extends Component {
     // Fail
     return (
       <Answer
+        classes={classes}
         onNext={this.nextQuestion}
         answers={answers}
         answer={correctAnswers}
@@ -278,13 +308,20 @@ class App extends Component {
 }
 
 // Wrap App in style and authentication
-export default withStyles(styles)(({ classes: { main } }) => (
+export default withStyles(styles)(({ classes }) => (
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
-    <main className={main}>
-      <Auth>
-        <App />
-      </Auth>
+    <main className={classes.main}>
+      <Card className={classes.card}>
+        <Auth classes={classes}>
+          <Menu
+            classes={classes}
+            App={App}
+            Leaderboard={Leaderboard}
+            LogoutPage={LogoutPage}
+          />
+        </Auth>
+      </Card>
     </main>
   </MuiThemeProvider>
 ));
