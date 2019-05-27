@@ -32,7 +32,7 @@ export const setScore = async (uid, newScore, name = null) => {
 export const getHighscores = async (count = 10) => {
   const leaderboard = await db.ref('scores')
     .orderByChild('score')
-    .limitToFirst(count)
+    .limitToLast(count)
     .once('value');
 
   return Object.entries(leaderboard.val())
