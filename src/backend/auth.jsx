@@ -80,9 +80,8 @@ export default class Auth extends Component {
                   firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
                 ],
                 callbacks: {
-                  signInSuccessWithAuthResult: authResult => this.setState({
-                    user: authResult,
-                  }),
+                  // eslint-disable-next-line no-restricted-globals
+                  signInSuccessWithAuthResult: () => location.reload(),
                 },
               }}
             />
